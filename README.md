@@ -57,8 +57,6 @@ All components are free tiers or open source:
   - Passwords need at least 8 characters, with letters and digits.
 - **Tables:** new tables are not exposed through the API automatically. Each migration grants access explicitly, behind row-level security.
 
-Both accounts belong to Jaz Villanueva. Ask Jaz for an invite to the Supabase organization or the Cloudflare account. Full setup notes are in [`docs/deployment.md`](docs/deployment.md).
-
 ## Repository layout
 
 ```
