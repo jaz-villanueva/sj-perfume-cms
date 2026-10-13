@@ -3,7 +3,8 @@
 ## Overview
 
 ```
-Browser (Owner/Staff PC or phone) ── HTTPS ──► Cloudflare Pages (React + Vite single-page app)
+Browser (Owner/Staff PC or phone) ── HTTPS ──► Static host: GitHub Pages (demo/staging), Cloudflare Pages (production)
+        │                                       React + Vite single-page app
         │
         │ supabase-js (publishable key + user session)
         ▼
@@ -15,6 +16,7 @@ Supabase (Singapore region)
   └─ Edge Functions .. admin-users (service role), login (lockout), health
 GitHub Actions
   ├─ ci.yml .......... lint, unit tests, build, pgTAP, pytest
+  ├─ deploy-pages.yml  build and deploy the demo site on every push to main
   ├─ forecast ........ nightly 03:00 PHT: Python/statsmodels → forecast tables      (planned)
   ├─ backup .......... nightly pg_dump → age encryption → off-site storage          (planned)
   └─ restore drill ... weekly: restore the latest backup into a temporary database and verify it (planned)
@@ -43,6 +45,7 @@ GitHub Actions
 |---|---|
 | Supabase Free | 500 MB database, 1 GB file storage, 5 GB egress, 2 active projects, **paused after 7 days without activity**, **no automatic backups**, 1-day log retention. Session timeouts, leaked-password protection and the password-verification hook are paid features. The default e-mail sender only reaches project team members. |
 | Supabase Edge Functions | 2 s CPU per request, 150 s wall clock, 256 MB memory |
+| GitHub Pages | 1 GB site, 100 GB/month soft bandwidth; no custom headers; not allowed for running a business, so it is used for the demo/staging site only |
 | Cloudflare Pages | 500 builds/month, 1 concurrent build, 20-minute build limit |
 | GitHub Actions | Free for public repositories. **Scheduled workflows in a public repo are disabled after 60 days without repository activity.** |
 

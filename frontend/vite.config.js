@@ -3,6 +3,8 @@ import { defineConfig } from 'vitest/config'
 
 // https://vite.dev/config/
 export default defineConfig({
+  // GitHub Pages serves the app from /<repo>/, so the deploy workflow sets BASE_PATH; everywhere else it is /.
+  base: process.env.BASE_PATH ?? '/',
   plugins: [react()],
   test: {
     environment: 'jsdom',
