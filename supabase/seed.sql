@@ -1,0 +1,2 @@
+-- Local development seed data. Loaded by `supabase db reset`.
+-- Synthetic data only: real client records must never be committed to this public repository.
