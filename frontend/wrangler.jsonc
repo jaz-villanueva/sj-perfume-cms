@@ -1,0 +1,12 @@
+// Cloudflare Workers static-assets deployment (see docs/deployment.md).
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "sjpt-cms",
+  "compatibility_date": "2026-09-01",
+  "workers_dev": true,
+  "preview_urls": true,
+  "assets": {
+    "directory": "./dist",
+    "not_found_handling": "single-page-application"
+  }
+}

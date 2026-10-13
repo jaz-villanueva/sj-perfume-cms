@@ -11,9 +11,6 @@ An internal web system for the owner of SJ Perfume Trading. It covers:
 All of it runs on one PostgreSQL database.
 
 Computer Engineering capstone (CPECAPS), De La Salle University – Manila, Group 7.
-
-**Live demo:** https://jaz-villanueva.github.io/sj-perfume-cms/ (deployed automatically from `main`).
-
 > **Owner-side only.** There are no customer or reseller logins, no public storefront, no payment or courier integrations, and no e-mail features. See [`docs/requirements-baseline.md`](docs/requirements-baseline.md).
 
 ## Stack
@@ -22,7 +19,7 @@ All components are free tiers or open source:
 
 | Layer | Technology |
 |---|---|
-| Frontend | React 19 + Vite, React Router. Demo on GitHub Pages; production on Cloudflare Pages (planned) |
+| Frontend | React 19 + Vite, React Router, hosted on Cloudflare Workers (static assets) |
 | Database and auth | Supabase Free (PostgreSQL, Auth, row-level security, Storage, Edge Functions) |
 | Scheduled jobs | GitHub Actions (nightly forecast and encrypted backup) |
 | Forecasting | Python, statsmodels |

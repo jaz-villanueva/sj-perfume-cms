@@ -6,7 +6,7 @@
 
 1. **Owner-side internal system only.** The following are removed: the Reseller Portal, the public product catalog, customer accounts, shopping cart and checkout. Customers and resellers remain as **internal records** that Owner/Staff encode; they never log in.
 2. **No e-mail of any kind.** The following are removed: password-reset e-mails, reseller invites, purchase-order notifications, new-PO alerts and the 08:00 low-stock digest. Notifications appear inside the app.
-3. **Free tiers only (₱0 recurring).** The stack is React + Vite, Supabase Free, Cloudflare Pages, GitHub and GitHub Actions. This replaces the Node.js/Nginx/Docker VPS in CON-4, NFR-13 and NFR-19.
+3. **Free tiers only (₱0 recurring).** The stack is React + Vite, Supabase Free, Cloudflare Workers (static assets), GitHub and GitHub Actions. This replaces the Node.js/Nginx/Docker VPS in CON-4, NFR-13 and NFR-19.
 4. **Three developers**, not the four stated in CON-3.
 
 ## Functional requirements
@@ -51,7 +51,7 @@ Status values: **Keep**, **Modify** (intent kept, criterion changes), **Remove**
 | NFR-9 Sessions | Modify | 30-minute idle logout is a client-side timer; server-side timeouts are a paid feature. |
 | NFR-10 Usability | Modify | Test participants are internal users instead of resellers. |
 | NFR-12 Maintainability | Modify | Requirements: ≥ 70 % coverage of the JS domain/service code; pgTAP tests for every RPC and RLS policy; OpenAPI 3 for the RPCs and Edge Functions (PostgREST only generates 2.0). |
-| NFR-13 Portability | Modify | "Fresh Supabase project + Cloudflare Pages from the README in ≤ 30 min" replaces Docker Compose on Ubuntu. |
+| NFR-13 Portability | Modify | "Fresh Supabase project + Cloudflare Workers deploy from the README in ≤ 30 min" replaces Docker Compose on Ubuntu. |
 | NFR-14 RA 10173 | Keep | "Delete" means anonymise, so sales history stays consistent. |
 | NFR-17 Cost | Modify | ₱0 recurring. The one-time cost is the scanner and the printer. |
 | NFR-19 Forecast performance | Modify | Measured on a GitHub-hosted runner with peak memory ≤ 512 MB. |
