@@ -7,42 +7,47 @@ Everything runs on free tiers. Recurring cost: ₱0, as long as usage stays with
 | Environment | Frontend | Database |
 |---|---|---|
 | Local | `npm run dev` | Local Supabase stack (Docker) or the staging project |
-| Demo / staging | GitHub Pages, deployed from `main`: https://jaz-villanueva.github.io/sj-perfume-cms/ | Supabase project `sjpt-cms-staging` |
-| Production (planned) | Cloudflare Pages | Supabase project `sjpt-cms-prod` |
+| Preview | Cloudflare Workers preview URL, built for every non-`main` branch | Supabase project `sjpt-cms-staging` |
+| Staging / demo | Cloudflare Workers, built from `main` | Supabase project `sjpt-cms-staging` |
+| Production | Set up at hand-over, ideally under the client's own Cloudflare and Supabase accounts | Separate production project |
 
-Supabase Free allows two active projects, which is exactly staging plus production.
+Only one Supabase project exists for now. A free project pauses after 7 days without activity, so an unused production database would just keep pausing.
 
-## GitHub Pages (demo / staging)
+## Cloudflare Workers (static assets)
 
-- `.github/workflows/deploy-pages.yml` runs on every push to `main`. It tests and builds the app, then deploys it. You can also run it by hand from the Actions tab.
-- The app is served from `/sj-perfume-cms/`. The workflow sets `BASE_PATH` for the build, and the router reads it from `import.meta.env.BASE_URL`.
-- GitHub Pages has no URL rewrites, so the workflow copies `index.html` to `404.html`. Deep links such as `/sj-perfume-cms/products` still load the app (with an HTTP 404 status).
-- **Supabase connection:** set the repository **variables** `VITE_SUPABASE_URL` and `VITE_SUPABASE_PUBLISHABLE_KEY` under Settings → Secrets and variables → Actions → Variables. Until they are set, the deployed app runs without data access.
-- **Limitations:**
-  - No custom HTTP headers, so the `_headers` file only applies on Cloudflare.
-  - No per-pull-request preview deploys.
-  - GitHub's terms don't allow Pages to be used to run a business. GitHub Pages therefore serves as the demo and staging host; the client's production site goes on Cloudflare Pages.
+The frontend is a static single-page app served by Cloudflare Workers static assets. Cloudflare's dashboard now treats Pages as its legacy workflow, which is why Workers is used. Requests for static assets are free and unlimited, and no Worker script runs.
 
-## One-time setup (done by a maintainer, not in code)
+- **Config:** `frontend/wrangler.jsonc` defines:
+  - the Worker name (`sjpt-cms`)
+  - the asset directory (`dist`)
+  - `not_found_handling: "single-page-application"`, so deep links such as `/products` load the app
+- **Security headers:** `frontend/public/_headers` sets them.
+- **Builds:** Cloudflare Workers Builds is connected to this GitHub repository.
+  - Root directory: `frontend`
+  - Build command: `npm run build`
+  - Deploy command (`main`): `npx wrangler deploy`
+  - Non-production branches: `npx wrangler versions upload`, which produces a preview URL
+- **Build variables:** set `VITE_SUPABASE_URL` and `VITE_SUPABASE_PUBLISHABLE_KEY` in the Worker's build settings (Settings → Build → Variables and secrets). Both values are public by design; data is protected by row-level security.
 
-1. **Supabase:** create both projects in the Singapore region. In Authentication settings:
-   - disable sign-ups, e-mail confirmation and secure password change
-   - leave the default e-mail sender unused
-2. **Cloudflare Pages (production, before hand-over):** connect the repository, then set:
-   - root directory `frontend`
-   - build command `npm run build`
-   - output directory `dist`
-   - environment variables `VITE_SUPABASE_URL` and `VITE_SUPABASE_PUBLISHABLE_KEY`, with different values for production and preview
-3. **GitHub:** add repository secrets for the scheduled jobs once they exist:
-   - the database session-pooler URL
-   - the backup encryption public key
-   - the backup-target credentials
-4. **Branch protection on `main`:** require a pull request and passing CI checks.
+## Supabase
+
+- Organization `SJPT-CMS` (Free plan), project `sjpt-cms-staging`, region Southeast Asia (Singapore).
+- Settings chosen when the project was created:
+  - Data API on
+  - "Automatically expose new tables" **off**, so every table is private until a migration grants access (deny-by-default, FR-2)
+  - automatic RLS off, because migrations enable RLS explicitly
+- **Authentication settings:**
+  - public sign-ups disabled
+  - e-mail confirmation off
+  - secure password change off
+  - the default e-mail sender left unused
+- The database password belongs to the project owner's password manager. It is never committed or shared in chat.
 
 ## Secrets
 
 - The service-role (secret) key and the database password never go in the repository, in `VITE_` variables, or in workflow logs.
 - Edge Function secrets are set with `supabase secrets set`.
+- GitHub repository secrets for the scheduled jobs (database session-pooler URL, backup keys) are added when those jobs are built.
 
 ## Backups (FR-20, NFR-4)
 
