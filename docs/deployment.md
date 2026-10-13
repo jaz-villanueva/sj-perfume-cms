@@ -8,7 +8,7 @@ Everything runs on free tiers. Recurring cost: ₱0, as long as usage stays with
 |---|---|---|
 | Local | `npm run dev` | Local Supabase stack (Docker) or the staging project |
 | Preview | Cloudflare Workers preview URL, built for every non-`main` branch | Supabase project `sjpt-cms-staging` |
-| Staging / demo | https://sjpt-cms.jazvvillanueva.workers.dev, built from `main` | Supabase project `sjpt-cms-staging` |
+| Staging / demo | https://sjpt-cms.sjperfumetrading.workers.dev, built from `main` | Supabase project `sjpt-cms-staging` |
 | Production | Set up at hand-over, ideally under the client's own Cloudflare and Supabase accounts | Separate production project |
 
 Only one Supabase project exists for now. A free project pauses after 7 days without activity, so an unused production database would just keep pausing.

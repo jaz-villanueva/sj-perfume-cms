@@ -12,7 +12,7 @@ All of it runs on one PostgreSQL database.
 
 Computer Engineering capstone (CPECAPS), De La Salle University – Manila, Group 7.
 
-**Live (staging):** https://sjpt-cms.jazvvillanueva.workers.dev, deployed automatically from `main`.
+**Live (staging):** https://sjpt-cms.sjperfumetrading.workers.dev, deployed automatically from `main`.
 
 > **Owner-side only.** There are no customer or reseller logins, no public storefront, no payment or courier integrations, and no e-mail features. See [`docs/requirements-baseline.md`](docs/requirements-baseline.md).
 
@@ -32,7 +32,7 @@ All components are free tiers or open source:
 
 | Environment | Where | Updated |
 |---|---|---|
-| Staging | https://sjpt-cms.jazvvillanueva.workers.dev | Automatically on every push to `main` |
+| Staging | https://sjpt-cms.sjperfumetrading.workers.dev | Automatically on every push to `main` |
 | Branch previews | One Cloudflare preview URL per branch, linked from the pull request's "Workers Builds" check | Automatically on every push to the branch |
 | Production | Not created yet. It will be set up at hand-over, ideally under the client's own accounts. | — |
 
