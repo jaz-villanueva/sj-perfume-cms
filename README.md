@@ -11,6 +11,8 @@ An internal web system for the owner of SJ Perfume Trading. It covers:
 All of it runs on one PostgreSQL database.
 
 Computer Engineering capstone (CPECAPS), De La Salle University – Manila, Group 7.
+
+**Staging:** https://sjpt-cms.jazvvillanueva.workers.dev (deployed automatically from `main`).
 > **Owner-side only.** There are no customer or reseller logins, no public storefront, no payment or courier integrations, and no e-mail features. See [`docs/requirements-baseline.md`](docs/requirements-baseline.md).
 
 ## Stack
