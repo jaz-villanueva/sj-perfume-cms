@@ -1,0 +1,40 @@
+# Dependencies
+node_modules/
+
+# Build and test output
+dist/
+dist-ssr/
+coverage/
+*.log
+
+# Environment files: only the example templates are committed
+.env
+.env.*
+*.local
+!.env.example
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+*.egg-info/
+.pytest_cache/
+
+# Supabase CLI state
+supabase/.temp/
+supabase/.branches/
+
+# Database dumps and encrypted backups must never be committed
+*.dump
+*.sql.gz
+*.age
+
+# Editors and OS
+.vscode/*
+!.vscode/extensions.json
+.idea/
+.DS_Store
+Thumbs.db
+
+# Claude Code local settings
+.claude/settings.local.json
