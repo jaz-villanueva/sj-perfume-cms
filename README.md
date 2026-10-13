@@ -11,6 +11,9 @@ An internal web system for the owner of SJ Perfume Trading. It covers:
 All of it runs on one PostgreSQL database.
 
 Computer Engineering capstone (CPECAPS), De La Salle University – Manila, Group 7.
+
+**Live (staging):** https://sjpt-cms.sjperfumetrading.workers.dev, deployed automatically from `main`.
+
 > **Owner-side only.** There are no customer or reseller logins, no public storefront, no payment or courier integrations, and no e-mail features. See [`docs/requirements-baseline.md`](docs/requirements-baseline.md).
 
 ## Stack
@@ -24,6 +27,37 @@ All components are free tiers or open source:
 | Scheduled jobs | GitHub Actions (nightly forecast and encrypted backup) |
 | Forecasting | Python, statsmodels |
 | Testing | Vitest, Testing Library, pgTAP, pytest; Playwright and k6 later |
+
+## Deployment
+
+| Environment | Where | Updated |
+|---|---|---|
+| Staging | https://sjpt-cms.sjperfumetrading.workers.dev | Automatically on every push to `main` |
+| Branch previews | One Cloudflare preview URL per branch, linked from the pull request's "Workers Builds" check | Automatically on every push to the branch |
+| Production | Not created yet. It will be set up at hand-over, ideally under the client's own accounts. | — |
+
+### Cloudflare (hosting)
+
+- **Hosting:** Cloudflare Workers static assets on the Free plan, Worker `sjpt-cms`.
+- **Builds:** Workers Builds is connected to this repository.
+  - Root directory: `frontend`
+  - Build command: `npm run build`
+  - Deploy command: `npx wrangler deploy` on `main`, `npx wrangler preview` on other branches
+- **Config files:** `frontend/wrangler.jsonc` holds the Worker config. `frontend/public/_headers` holds the security headers.
+- **Build variables:** `VITE_SUPABASE_URL` and `VITE_SUPABASE_PUBLISHABLE_KEY`, set in the Worker's build settings.
+
+### Supabase (database and auth)
+
+- **Organization and project:** organization `SJPT-CMS` (Free plan), project `sjpt-cms-staging`, region Southeast Asia (Singapore).
+- **Project URL:** `https://hdvzvgcsmcauyluxduaz.supabase.co`.
+- **Publishable key:** in the dashboard under Project Settings → API Keys. It is public by design. Never put the secret key in the frontend.
+- **Auth:**
+  - E-mail and password only.
+  - Public sign-up and e-mail confirmation are off; the Owner creates accounts inside the app.
+  - Passwords need at least 8 characters, with letters and digits.
+- **Tables:** new tables are not exposed through the API automatically. Each migration grants access explicitly, behind row-level security.
+
+Both accounts belong to Jaz Villanueva. Ask Jaz for an invite to the Supabase organization or the Cloudflare account. Full setup notes are in [`docs/deployment.md`](docs/deployment.md).
 
 ## Repository layout
 

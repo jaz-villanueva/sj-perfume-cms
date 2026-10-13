@@ -8,7 +8,7 @@ Everything runs on free tiers. Recurring cost: ₱0, as long as usage stays with
 |---|---|---|
 | Local | `npm run dev` | Local Supabase stack (Docker) or the staging project |
 | Preview | Cloudflare Workers preview URL, built for every non-`main` branch | Supabase project `sjpt-cms-staging` |
-| Staging / demo | Cloudflare Workers, built from `main` | Supabase project `sjpt-cms-staging` |
+| Staging / demo | https://sjpt-cms.sjperfumetrading.workers.dev, built from `main` | Supabase project `sjpt-cms-staging` |
 | Production | Set up at hand-over, ideally under the client's own Cloudflare and Supabase accounts | Separate production project |
 
 Only one Supabase project exists for now. A free project pauses after 7 days without activity, so an unused production database would just keep pausing.
@@ -26,12 +26,14 @@ The frontend is a static single-page app served by Cloudflare Workers static ass
   - Root directory: `frontend`
   - Build command: `npm run build`
   - Deploy command (`main`): `npx wrangler deploy`
-  - Non-production branches: `npx wrangler versions upload`, which produces a preview URL
-- **Build variables:** set `VITE_SUPABASE_URL` and `VITE_SUPABASE_PUBLISHABLE_KEY` in the Worker's build settings (Settings → Build → Variables and secrets). Both values are public by design; data is protected by row-level security.
+  - Non-production branches: `npx wrangler preview`, which produces a preview URL
+  - Build token: created automatically by Cloudflare (`sjpt-cms build token`)
+- **Build variables:** `VITE_SUPABASE_URL` and `VITE_SUPABASE_PUBLISHABLE_KEY` are set in the Worker's build settings (Settings → Build → Variables and secrets). Both values are public by design; data is protected by row-level security. Change them there, then retry the latest build.
+- **Cloudflare's access to GitHub:** the "Cloudflare Workers and Pages" GitHub App. Limit it to this repository under GitHub Settings → Applications → Configure.
 
 ## Supabase
 
-- Organization `SJPT-CMS` (Free plan), project `sjpt-cms-staging`, region Southeast Asia (Singapore).
+- Organization `SJPT-CMS` (Free plan), project `sjpt-cms-staging` (ref `hdvzvgcsmcauyluxduaz`, URL `https://hdvzvgcsmcauyluxduaz.supabase.co`), region Southeast Asia (Singapore).
 - Settings chosen when the project was created:
   - Data API on
   - "Automatically expose new tables" **off**, so every table is private until a migration grants access (deny-by-default, FR-2)
@@ -39,7 +41,9 @@ The frontend is a static single-page app served by Cloudflare Workers static ass
 - **Authentication settings:**
   - public sign-ups disabled
   - e-mail confirmation off
-  - secure password change off
+  - secure password change off (it would e-mail a reauthentication code)
+  - current password required to change a password
+  - minimum password length 8, with letters and digits
   - the default e-mail sender left unused
 - The database password belongs to the project owner's password manager. It is never committed or shared in chat.
 
