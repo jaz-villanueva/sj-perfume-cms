@@ -7,17 +7,28 @@ Everything runs on free tiers. Recurring cost: ₱0, as long as usage stays with
 | Environment | Frontend | Database |
 |---|---|---|
 | Local | `npm run dev` | Local Supabase stack (Docker) or the staging project |
-| Staging | Cloudflare Pages preview deploy (one per pull request) | Supabase project `sjpt-cms-staging` |
-| Production | Cloudflare Pages, `main` branch | Supabase project `sjpt-cms-prod` |
+| Demo / staging | GitHub Pages, deployed from `main`: https://jaz-villanueva.github.io/sj-perfume-cms/ | Supabase project `sjpt-cms-staging` |
+| Production (planned) | Cloudflare Pages | Supabase project `sjpt-cms-prod` |
 
 Supabase Free allows two active projects, which is exactly staging plus production.
+
+## GitHub Pages (demo / staging)
+
+- `.github/workflows/deploy-pages.yml` runs on every push to `main`. It tests and builds the app, then deploys it. You can also run it by hand from the Actions tab.
+- The app is served from `/sj-perfume-cms/`. The workflow sets `BASE_PATH` for the build, and the router reads it from `import.meta.env.BASE_URL`.
+- GitHub Pages has no URL rewrites, so the workflow copies `index.html` to `404.html`. Deep links such as `/sj-perfume-cms/products` still load the app (with an HTTP 404 status).
+- **Supabase connection:** set the repository **variables** `VITE_SUPABASE_URL` and `VITE_SUPABASE_PUBLISHABLE_KEY` under Settings → Secrets and variables → Actions → Variables. Until they are set, the deployed app runs without data access.
+- **Limitations:**
+  - No custom HTTP headers, so the `_headers` file only applies on Cloudflare.
+  - No per-pull-request preview deploys.
+  - GitHub's terms don't allow Pages to be used to run a business. GitHub Pages therefore serves as the demo and staging host; the client's production site goes on Cloudflare Pages.
 
 ## One-time setup (done by a maintainer, not in code)
 
 1. **Supabase:** create both projects in the Singapore region. In Authentication settings:
    - disable sign-ups, e-mail confirmation and secure password change
    - leave the default e-mail sender unused
-2. **Cloudflare Pages:** connect the repository, then set:
+2. **Cloudflare Pages (production, before hand-over):** connect the repository, then set:
    - root directory `frontend`
    - build command `npm run build`
    - output directory `dist`
