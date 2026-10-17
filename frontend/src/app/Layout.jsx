@@ -5,7 +5,7 @@ export default function Layout() {
   return (
     <div className="app-shell">
       <header className="app-header">
-        <span className="app-title">SJPT-CMS</span>
+        <span className="app-title">SJ Perfume Trading</span>
         <nav aria-label="Main">
           <ul className="app-nav">
             {navItems.map(({ path, label }) => (
