@@ -24,8 +24,8 @@ The "API" is Supabase:
 | Function | Owner | Used by | Purpose |
 |---|---|---|---|
 | `record_stock_movement(payload)` | Member 1 | Member 1 UI, imports | Stock-in, return or adjustment with a reason; updates `product_stock` under a row lock |
-| `record_sale(payload)` | Member 2 | Sales UI | One atomic sale: lines, stock deduction, movements |
-| `void_sale(sale_id, reason)` | Member 2 | Sales UI (Owner) | Compensating movements; never deletes |
+| `record_sale(payload)` | Member 2 | Sales UI | One atomic sale. `payload = { channel, customer_id, reseller_id, lines: [{ product_id, quantity }] }`; prices are looked up in the function (retail, or reseller price for channel `reseller`). Returns `{ sale_id, sale_no, total }`; refuses with `P0001` if stock is short. Full contract: `frontend/src/features/sales/README.md` |
+| `void_sale(sale_id, reason)` | Member 2 | Sales UI (Owner) | Owner only (`42501` otherwise); compensating movements; never deletes |
 | `export_data_subject(kind, id)` / `anonymize_customer(id)` | Member 2 | Customers UI (Owner) | NFR-14 |
 | `import_batch(kind, rows)` | Member 3 | Imports UI | Validates every row, then commits the valid rows in one transaction |
 | report RPCs (`sales_summary`, `trend_series`, ...) | Member 3 | Reports, trends, dashboard | Owner-only aggregates |

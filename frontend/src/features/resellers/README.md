@@ -9,4 +9,4 @@
 ## Scope notes
 
 - These are internal records only. There is no reseller portal, login or invite e-mail.
-- **Reseller orders are undecided:** either an internal order workflow with stock reservation, or recording them as sales with channel "reseller". Don't build order screens until the team decides.
+- **Reseller orders** are recorded as sales with channel `reseller` in the Sales module (decision D3, SRS v1.1). There are no separate order screens.

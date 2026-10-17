@@ -4,7 +4,7 @@ An internal web system for the owner of SJ Perfume Trading. It covers:
 
 - products and pricing
 - the stock-movement ledger
-- sales and receipts
+- sales (walk-in, online and reseller)
 - customer and reseller records
 - reports, sales trends and 8-week demand forecasts
 
@@ -72,7 +72,7 @@ docs/          requirements baseline, architecture, schema, API contracts, workf
 | Module | Member | Frontend folders | Requirements |
 |---|---|---|---|
 | 1 — Products & Inventory | Robin Louis Putong | `products/`, `inventory/`, `resellers/` | FR-4, FR-5, FR-6, FR-7, FR-8, FR-10 |
-| 2 — Sales & Operations | James Earl Cugal | `sales/`, `customers/` | FR-9, FR-11, FR-12, NFR-5, NFR-11, NFR-14 (reseller orders pending decision) |
+| 2 — Sales & Operations | James Earl Cugal | `sales/`, `customers/` | FR-9, FR-11, NFR-5, NFR-11, NFR-14 |
 | 3 — Analytics, Forecasting & Infrastructure | Jaz Villanueva | `dashboard/`, `reports/`, `trends/`, `forecasts/`, `imports/`, plus `forecasting/` | FR-16, FR-17, FR-20, FR-21, FR-22, FR-23 |
 | Shared foundation | All | `users/`, `audit/`, `src/app/`, `src/lib/` | FR-1, FR-2, FR-3, FR-18 |
 
