@@ -5,7 +5,7 @@ export default function UsersPage() {
     <PlaceholderPage
       title="User accounts"
       module="Shared"
-      requirements={['FR-1', 'FR-2', 'FR-3']}
+      requirements={['FR-1', 'FR-2', 'FR-3', 'FR-16']}
     />
   )
 }

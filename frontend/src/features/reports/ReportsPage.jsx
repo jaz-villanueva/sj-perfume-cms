@@ -5,7 +5,7 @@ export default function ReportsPage() {
     <PlaceholderPage
       title="Reports"
       module="Member 3 — Analytics, Forecasting & Infrastructure"
-      requirements={['FR-16']}
+      requirements={['FR-11']}
     />
   )
 }

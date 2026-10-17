@@ -5,7 +5,7 @@ export default function ForecastsPage() {
     <PlaceholderPage
       title="Forecasts and reorder suggestions"
       module="Member 3 — Analytics, Forecasting & Infrastructure"
-      requirements={['FR-22', 'FR-23']}
+      requirements={['FR-14', 'FR-15']}
     />
   )
 }

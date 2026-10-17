@@ -2,16 +2,12 @@
 
 **Owner:** Member 3 — Analytics, Forecasting & Infrastructure (Jaz Villanueva)
 
-## Requirements
+## Requirements (SRS v1.2)
 
-- **FR-21:**
-  - units and revenue per week or month, with a 4-week moving average
-  - % change versus the previous period
-  - the top 10 rising and falling products (last 4 weeks vs the 4 before, minimum 5 units)
-  - breakdowns by channel and reseller
-
-  *Acceptance:* on SEED-F (26 weeks, 50 products), the chart loads in ≤ 3 s and every value matches the reference spreadsheet.
+- **FR-14 Forecasting and trends (trends part):** historical sales and product-usage trends by product and time period. These views are the "actual" side that forecasts are compared with.
+- **NFR-11:** keep actual values visually separate from forecast estimates.
 
 ## Notes
 
 - Charts use Recharts.
+- Weekly and monthly totals and moving averages are computed in SQL views, so every number can be checked against the records.

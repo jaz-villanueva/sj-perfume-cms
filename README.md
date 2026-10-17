@@ -1,12 +1,12 @@
 # SJ Perfume Trading — Centralized Management System (SJPT-CMS)
 
-An internal web system for the owner of SJ Perfume Trading. It covers:
+A web system for SJ Perfume Trading's Owner/Admin and Staff, plus a public product catalog. It covers:
 
-- products and pricing
+- products, pricing and the public product catalog
 - the stock-movement ledger
 - sales (walk-in, online and reseller)
 - customer and reseller records
-- reports, sales trends and 8-week demand forecasts
+- reports, sales trends, demand forecasts and reorder suggestions
 
 All of it runs on one PostgreSQL database.
 
@@ -14,7 +14,7 @@ Computer Engineering capstone (CPECAPS), De La Salle University – Manila, Grou
 
 **Live (staging):** https://sjpt-cms.sjperfumetrading.workers.dev, deployed automatically from `main`.
 
-> **Owner-side only.** There are no customer or reseller logins, no public storefront, no payment or courier integrations, and no e-mail features. See [`docs/requirements-baseline.md`](docs/requirements-baseline.md).
+> **Scope (SRS v1.2).** Owner/Admin and Staff sign in; customers only browse the public catalog. There are no customer or reseller logins, no cart or checkout, no payment processing, and no e-mail features. See [`docs/requirements-baseline.md`](docs/requirements-baseline.md).
 
 ## Stack
 
@@ -62,7 +62,7 @@ All components are free tiers or open source:
 ```
 frontend/      React app. Each module owns folders in src/features/
 supabase/      migrations, row-level security, Postgres functions, Edge Functions, pgTAP tests
-forecasting/   nightly Python forecasting job (FR-22, FR-23)
+forecasting/   nightly Python forecasting job (FR-14, FR-15)
 docs/          requirements baseline, architecture, schema, API contracts, workflow, deployment
 .github/       CI and the pull request template
 ```
@@ -71,12 +71,12 @@ docs/          requirements baseline, architecture, schema, API contracts, workf
 
 | Module | Member | Frontend folders | Requirements |
 |---|---|---|---|
-| 1 — Products & Inventory | Robin Louis Putong | `products/`, `inventory/`, `resellers/` | FR-4, FR-5, FR-6, FR-7, FR-8, FR-10 |
-| 2 — Sales & Operations | James Earl Cugal | `sales/`, `customers/` | FR-9, FR-11, NFR-5, NFR-11, NFR-14 |
-| 3 — Analytics, Forecasting & Infrastructure | Jaz Villanueva | `dashboard/`, `reports/`, `trends/`, `forecasts/`, `imports/`, plus `forecasting/` | FR-16, FR-17, FR-20, FR-21, FR-22, FR-23 |
-| Shared foundation | All | `users/`, `audit/`, `src/app/`, `src/lib/` | FR-1, FR-2, FR-3, FR-18 |
+| 1 — Products & Inventory | Robin Louis Putong | `products/`, `inventory/`, `resellers/`, `catalog/` | FR-4, FR-5, FR-6, FR-8, FR-12 |
+| 2 — Sales & Operations | James Earl Cugal | `sales/`, `customers/` | FR-7, FR-9, NFR-5 |
+| 3 — Analytics, Forecasting & Infrastructure | Jaz Villanueva | `dashboard/`, `reports/`, `trends/`, `forecasts/`, `imports/`, plus `forecasting/` | FR-11, FR-13, FR-14, FR-15, NFR-8, NFR-11, NFR-12 |
+| Shared foundation | All | `users/`, `audit/`, `src/app/`, `src/lib/` | FR-1, FR-2, FR-3, FR-10, FR-16, FR-17, FR-18 |
 
-Each feature folder has a README with its requirements and rules.
+Each feature folder has a README with its requirements and rules. Requirement IDs follow SRS v1.2; READMEs written before v1.2 may use older numbers (mapping in the requirements baseline).
 
 ## Getting started
 

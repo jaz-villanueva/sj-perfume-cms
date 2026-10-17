@@ -38,7 +38,7 @@
 6. Push and open a pull request. Fill in the template, including the SRS requirement IDs.
 7. Another member reviews. Merge after CI passes. Squash merging is preferred.
 
-`main` is never committed to directly after the initial setup.
+Team members may also push small, tested changes straight to `main`; `main` has no branch protection. Use a pull request when you want a review first. Either way, run the checks before pushing — CI runs on every push to `main`.
 
 ## Shared files
 

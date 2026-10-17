@@ -5,7 +5,7 @@ export default function ResellersPage() {
     <PlaceholderPage
       title="Resellers"
       module="Member 1 — Products & Inventory"
-      requirements={['FR-10']}
+      requirements={['FR-8']}
     />
   )
 }

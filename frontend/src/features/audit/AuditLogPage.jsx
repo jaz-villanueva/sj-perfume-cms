@@ -5,7 +5,7 @@ export default function AuditLogPage() {
     <PlaceholderPage
       title="Audit log"
       module="Shared"
-      requirements={['FR-18']}
+      requirements={['FR-17']}
     />
   )
 }

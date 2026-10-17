@@ -28,6 +28,7 @@ The "API" is Supabase:
 | `void_sale(sale_id, reason)` | Member 2 | Sales UI (Owner) | Owner only (`42501` otherwise); compensating movements; never deletes |
 | `export_data_subject(kind, id)` / `anonymize_customer(id)` | Member 2 | Customers UI (Owner) | NFR-14 |
 | `import_batch(kind, rows)` | Member 3 | Imports UI | Validates every row, then commits the valid rows in one transaction |
+| `public_catalog` view (`GET /rest/v1/public_catalog`) | Member 1 | Public catalog page (no login) | Approved product fields + availability label; readable by `anon` with the publishable key only |
 | report RPCs (`sales_summary`, `trend_series`, ...) | Member 3 | Reports, trends, dashboard | Owner-only aggregates |
 
 Detailed payload schemas are added here in the pull request that implements each function. The OpenAPI 3 document required by NFR-12 is generated from this file at the end of the project.

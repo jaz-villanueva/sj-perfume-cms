@@ -4,6 +4,7 @@
 
 ```
 Browser (Owner/Staff PC or phone) ── HTTPS ──► Cloudflare Workers static assets (React + Vite single-page app)
+Public catalog visitor (no login) ─ HTTPS ──►   same site, /catalog page only (FR-12)
         │
         │ supabase-js (publishable key + user session)
         ▼
@@ -36,6 +37,7 @@ GitHub Actions
 5. **Revocation within 60 s (FR-3).** Every RLS policy checks `profiles.is_active`, so a deactivated user loses data access on their next request. The auth user is also banned so the session can't be refreshed.
 6. **Scheduled work runs on GitHub Actions.** Edge Functions are limited to 2 s of CPU time per request, which is too little for forecasting, and Supabase Free has no backups.
 7. **Feature folders.** Each folder in `frontend/src/features/` belongs to one module and registers its own routes, which keeps merge conflicts between members low.
+8. **Public catalog (FR-12).** Visitors use the publishable key without signing in. The `anon` role can read only the `public_catalog` view: approved fields plus an availability label, never cost price, exact stock or any customer or reseller data. Every other table denies `anon`.
 
 ## Free-tier limits (verified October 2026)
 
@@ -50,7 +52,7 @@ GitHub Actions
 
 | ID | Risk | Mitigation |
 |---|---|---|
-| R-1 | Schedule: acceptance on 21 Nov 2026 | Musts first; cut Should items (FR-22/23) if needed |
+| R-1 | Schedule: acceptance on 21 Nov 2026 | Musts first; Should items (FR-6, FR-13) are cut first if needed |
 | R-3 | Lockout can be bypassed by calling Supabase Auth directly | Supabase's per-IP rate limits apply instead; disclose this in the SRS |
 | R-5 | Project pauses after 7 idle days | Daily use and the nightly jobs keep it active; documented in the hand-over |
 | R-6 | Public repository: Actions logs and artifacts are visible | Never upload dumps as artifacts here; never print data in logs |

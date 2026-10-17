@@ -53,7 +53,7 @@ The frontend is a static single-page app served by Cloudflare Workers static ass
 - Edge Function secrets are set with `supabase secrets set`.
 - GitHub repository secrets for the scheduled jobs (database session-pooler URL, backup keys) are added when those jobs are built.
 
-## Backups (FR-20, NFR-4)
+## Backups (NFR-8)
 
 Planned:
 

@@ -2,24 +2,30 @@
 
 **Owner:** Member 3 — Analytics, Forecasting & Infrastructure (Jaz Villanueva)
 
-A Python job that runs every night at 03:00 PHT (19:00 UTC) on GitHub Actions. It reads weekly sales from Supabase and writes forecasts back, and the app only displays the results. The job runs on GitHub Actions because Supabase Edge Functions are limited to 2 s of CPU time per request, which is too little for 5,000 products.
+A Python job that runs every night at 03:00 PHT (19:00 UTC) on GitHub Actions. It reads weekly sales from Supabase and writes forecasts back, and the app only displays the results. The job runs on GitHub Actions because Supabase Edge Functions are limited to 2 s of CPU time per request.
 
-## Requirements
+## Requirements (SRS v1.2)
 
-- **FR-22:** an 8-week weekly unit forecast for every active product and for the total, with an 80 % prediction interval.
-  - Each product is backtested on four models: naive, 4-week moving average, simple exponential smoothing and Holt linear trend.
-  - The model with the lowest backtest error is used.
-  - Products with fewer than 8 weeks of history are labelled "Low confidence".
-- **FR-23:** suggested reorder quantity and projected stock-out date, calculated as follows:
-  - suggested quantity = forecast demand over (lead time + 7-day review) + safety stock − available stock, and never below 0
-  - safety stock = 1.65 × backtest RMSE × √(weeks of lead time + review)
-- **NFR-18:** weekly total WAPE ≤ 25 %, and MASE < 1 for ≥ 70 % of the top-20 products, on the synthetic SEED-F dataset.
-- **NFR-19:** 5,000 products × 104 weeks finishes in ≤ 10 minutes with peak memory ≤ 512 MB.
+- **FR-14 Forecasting and trends:** estimate future sales or demand by product and period from historical data, with the horizon, assumptions and confidence or limitations.
+- **FR-15 Stock-demand planning:** projected stock needs and advisory reorder suggestions, traceable to the forecast and current stock. Suggestions never place orders.
+- **NFR-11 Forecast transparency:** label estimates, show the period and the generated date, and disclose data limitations. Flag low-confidence products (little history, gaps, one-off spikes).
+- **NFR-12 Forecast evaluation:** measure accuracy on held-out history against a simple baseline, and report the method and the results.
 
-## Still to define in the SRS revision
+## Model selection (SRS §5: not chosen yet)
 
-- The error metric used to select the model (proposed: MAE from a rolling-origin backtest). Store RMSE as well, because FR-23 uses it.
-- How the 80 % interval is computed for the naive and moving-average models (proposed: empirical backtest residual quantiles).
+The model is picked **after** reviewing the client's historical data, which is due as CSV.
+
+1. **Check the data:** how many weeks of history, how complete, how many products.
+2. **Backtest candidates** with a rolling origin:
+   - naive ("same as last week") as the baseline
+   - 4-week moving average
+   - simple exponential smoothing
+   - Holt linear trend
+   - a machine-learning model only if the data justifies it
+3. **Compare** with MAE and WAPE, plus MASE against the naive baseline. Document the chosen method and its results.
+4. **Horizon:** weekly for the next 8 weeks if the data allows it, otherwise shorter, and stated in the UI.
+
+A reorder suggestion could be "forecast demand over lead time + review period + safety stock − available stock (never below 0)". That formula was in SRS v1.0; confirm it with the client before building it.
 
 ## Development
 
@@ -30,4 +36,4 @@ pip install -e ".[dev]"
 pytest
 ```
 
-Every result must be reproducible: use fixed random seeds for the synthetic data, and no randomness in the models.
+Every result must be reproducible: use fixed random seeds for synthetic data, and no randomness in the models.

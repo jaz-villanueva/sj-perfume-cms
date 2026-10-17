@@ -5,7 +5,7 @@ export default function ImportsPage() {
     <PlaceholderPage
       title="Import data"
       module="Member 3 — Analytics, Forecasting & Infrastructure"
-      requirements={['FR-17']}
+      requirements={['FR-13']}
     />
   )
 }

@@ -5,7 +5,7 @@ export default function DashboardPage() {
     <PlaceholderPage
       title="Dashboard"
       module="Member 3 — Analytics, Forecasting & Infrastructure"
-      requirements={['FR-16']}
+      requirements={['FR-11', 'FR-6']}
     />
   )
 }

@@ -2,15 +2,12 @@
 
 **Owner:** Member 3 — Analytics, Forecasting & Infrastructure (Jaz Villanueva)
 
-## Requirements
+## Requirements (SRS v1.2)
 
-- **FR-16 Reports:**
-  - sales by day, week and month, by product and by reseller
-  - top sellers
-  - inventory valuation at cost
-  - export of any report to CSV or XLSX
-
-  *Acceptance:* on a seeded dataset of 200 sales, every total matches an independently computed reference spreadsheet to the centavo.
+- **FR-11 Dashboard and reports:** reports for sales, inventory, product performance and customer/reseller activity.
+  - The Owner sees all reports; Staff see only the reports their role allows.
+  - Report totals must match the underlying records.
+  - CSV/XLSX export may be included. Whether it's in the final delivery is still open (SRS §11).
 
 ## Notes
 

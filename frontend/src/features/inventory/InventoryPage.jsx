@@ -5,7 +5,7 @@ export default function InventoryPage() {
     <PlaceholderPage
       title="Inventory"
       module="Member 1 — Products & Inventory"
-      requirements={['FR-5', 'FR-7']}
+      requirements={['FR-5', 'FR-6']}
     />
   )
 }

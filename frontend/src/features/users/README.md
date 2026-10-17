@@ -2,13 +2,12 @@
 
 **Owner:** Shared foundation
 
-## Requirements
+## Requirements (SRS v1.2)
 
-- **FR-1 Login** with e-mail and password through Supabase Auth.
-  - Lock the account for 15 minutes after 5 failed attempts. This needs a `login` Edge Function, because Supabase Free has no password-verification hook.
-- **FR-2 Access control:** deny by default, on every screen and every database call.
-- **FR-3 Account management:** the Owner manages accounts in the app.
-  - Create, deactivate and reactivate accounts, and set temporary passwords.
-  - No e-mail is involved: no invites and no reset links.
+- **FR-1 Authentication:** Owner/Admin and Staff sign in with e-mail and password (Supabase Auth) before seeing any internal data.
+- **FR-2 Role-based access control:** deny by default on every screen and every database call. Staff can't run Owner-only operations by tweaking the UI or calling endpoints directly.
+- **FR-3 User account management:** the Owner creates, views, edits, deactivates, reactivates and deletes Staff accounts. Staff manage only their own profile and password.
+  - No e-mail is involved.
   - All of this goes through an `admin-users` Edge Function, so the service-role key never reaches the browser.
-- **NFR-9:** log users out after 30 minutes of inactivity with a client-side timer. Server-side session timeouts are a paid Supabase feature.
+- **FR-16 Administrative data management:** only the Owner can make privileged deletions. Deleting an account keeps the identity needed for past sales and audit entries.
+- **NFR-4 Session management:** client-side idle logout; failed sign-ins limited by a `login` Edge Function (Supabase Free has no password-verification hook).

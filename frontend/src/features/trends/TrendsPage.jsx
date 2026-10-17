@@ -5,7 +5,7 @@ export default function TrendsPage() {
     <PlaceholderPage
       title="Sales trends"
       module="Member 3 — Analytics, Forecasting & Infrastructure"
-      requirements={['FR-21']}
+      requirements={['FR-14']}
     />
   )
 }

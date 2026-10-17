@@ -2,15 +2,15 @@
 
 **Owner:** Member 1 — Products & Inventory (Robin Louis Putong)
 
-## Requirements
+## Requirements (SRS v1.2)
 
-- **FR-4 Products & pricing.** Add and edit products with SKU (`SJ-NNNNNN`), barcode, name, brand, scent family, size (mL), retail price, reseller price, reorder level and photo. The cost price is visible and editable by the Owner only. A duplicate SKU or barcode blocks the save with a "duplicate" message. A saved product appears in the list within 2 s.
-- **FR-6 Barcode lookup.** A USB scanner types the code like a keyboard; find the product by barcode or SKU. *(Requirement text is missing from SRS v1.0 and will be restored.)*
-- **FR-8 Code 128 SKU labels**, printable (JsBarcode). *(Text missing from SRS v1.0.)*
-- **NFR-6:** duplicate SKUs and barcodes are rejected 100 % of the time.
+- **FR-4 Product management.** Authorized users view and search products. The Owner and permitted Staff create or edit name, brand, scent family, size, SKU, prices, image and reorder level. Valid data is saved and searchable; invalid required fields and duplicate unique identifiers (SKU) are rejected. If the cost price is kept, only the Owner can see or edit it.
+- **FR-10 Centralized search** (shared): products are searchable from the same app as the other records.
+- **NFR-2:** duplicate SKUs are always rejected.
 
 ## Notes
 
 - The cost price lives in an Owner-only table (`product_costs`), because row-level security can't hide a single column.
 - Product photos go to Supabase Storage (1 GB free in total). Compress them in the browser (about 200 KB WebP) before uploading.
+- Barcode scanning and printed SKU labels were in SRS v1.0 but are not in v1.2.
 - Schema and contracts: `docs/database-schema.md`, `docs/api-contracts.md`.

@@ -2,13 +2,12 @@
 
 **Owner:** Member 3 — Analytics, Forecasting & Infrastructure (Jaz Villanueva)
 
-## Requirements
+## Requirements (SRS v1.2)
 
-- **FR-17:** import products, customers, resellers and historical sales (date, SKU, quantity, unit price, channel) from CSV templates.
-  - Show a row-level validation report (duplicates, missing fields, invalid formats) before anything is saved.
-  - Save the valid rows in one transaction, and never save part of a row.
-
-  *Acceptance:* a 300-row file with 6 invalid rows saves 294 rows and lists the 6 rows with their row numbers and reasons.
+- **FR-13 Data import / migration (Should):** import products, customers, resellers, inventory and historical sales from agreed templates.
+  - Missing, duplicate and invalid values are identified before anything is committed.
+  - Imported records can be reconciled against the source data.
+  - Whether import is in the final delivery is still open (SRS §11).
 
 ## Notes
 
