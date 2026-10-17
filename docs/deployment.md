@@ -29,6 +29,7 @@ The frontend is a static single-page app served by Cloudflare Workers static ass
   - Non-production branches: `npx wrangler preview`, which produces a preview URL
   - Build token: created automatically by Cloudflare (`sjpt-cms build token`)
 - **Build variables:** `VITE_SUPABASE_URL` and `VITE_SUPABASE_PUBLISHABLE_KEY` are set in the Worker's build settings (Settings → Build → Variables and secrets). Both values are public by design; data is protected by row-level security. Change them there, then retry the latest build.
+- **Sample-data switch:** until the database tables exist, the app ignores Supabase and the screens show their built-in sample data (`VITE_USE_SAMPLE_DATA`, default `true`, in `frontend/src/lib/supabase.js`). To go live on the database, flip that default to `false` in code, or add the build variable `VITE_USE_SAMPLE_DATA=false`.
 - **Cloudflare's access to GitHub:** the "Cloudflare Workers and Pages" GitHub App. Limit it to this repository under GitHub Settings → Applications → Configure.
 
 ## Supabase

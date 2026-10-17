@@ -45,6 +45,7 @@ All components are free tiers or open source:
   - Deploy command: `npx wrangler deploy` on `main`, `npx wrangler preview` on other branches
 - **Config files:** `frontend/wrangler.jsonc` holds the Worker config. `frontend/public/_headers` holds the security headers.
 - **Build variables:** `VITE_SUPABASE_URL` and `VITE_SUPABASE_PUBLISHABLE_KEY`, set in the Worker's build settings.
+- **Sample data:** until the database tables exist, the screens show built-in sample data. Set `VITE_USE_SAMPLE_DATA=false` (or flip the default in `frontend/src/lib/supabase.js`) to use the database.
 
 ### Supabase (database and auth)
 
