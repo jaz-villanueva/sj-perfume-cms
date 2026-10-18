@@ -442,12 +442,14 @@ export default function ProductsPage() {
                 <td>
                   <button
                     type="button"
+                    className="link"
                     onClick={() => handleEditProduct(product)}
                   >
                     Edit
                   </button>
                   <button
                     type="button"
+                    className="deleteLink"
                     onClick={() => handleDeleteProduct(product)}
                   >
                     Delete
