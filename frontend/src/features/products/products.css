@@ -218,3 +218,33 @@
     grid-template-columns: 1fr;
   }
 }
+/* Purple, underlined Edit button */
+.link {
+  background: none;
+  border: none;
+  padding: 0;
+  margin-right: 12px;
+  color: var(--color-accent);
+  text-decoration: underline;
+  font: inherit;
+  cursor: pointer;
+}
+
+.link:hover {
+  color: #4f2d79;
+}
+
+/* Red, underlined Delete button */
+.deleteLink {
+  background: none;
+  border: none;
+  padding: 0;
+  color: #b42318;
+  text-decoration: underline;
+  font: inherit;
+  cursor: pointer;
+}
+
+.deleteLink:hover {
+  color: #8f1d14;
+}
