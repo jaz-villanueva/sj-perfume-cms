@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { salesInPeriod, summarize } from './dashboardUtils.js'
+import { byChannel, dailyRevenue, recentSales, salesInPeriod, stockWatch, summarize, topProducts } from './dashboardUtils.js'
 
 // Local dates, so the tests don't depend on the machine's time zone.
 const at = (month, day, hour = 10) => new Date(2026, month - 1, day, hour).toISOString()
@@ -43,5 +43,62 @@ describe('summarize', () => {
 
   it('reports zeros when there are no sales', () => {
     expect(summarize([])).toEqual({ revenue: 0, salesCount: 0, units: 0, averageSale: 0 })
+  })
+})
+
+describe('byChannel', () => {
+  it('lists every channel in a fixed order, skipping voided sales', () => {
+    expect(byChannel(SALES)).toEqual([
+      { channel: 'walk_in', label: 'Walk-in', revenue: 2550.1, salesCount: 2 },
+      { channel: 'online', label: 'Online (Messenger)', revenue: 0.2, salesCount: 1 },
+      { channel: 'reseller', label: 'Reseller', revenue: 500, salesCount: 1 },
+    ])
+  })
+})
+
+describe('dailyRevenue', () => {
+  it('returns one row per day, oldest first, with empty days at zero', () => {
+    const days = dailyRevenue(SALES, 7, NOW)
+    expect(days.map((d) => d.key)).toEqual(['2026-10-18', '2026-10-19', '2026-10-20', '2026-10-21', '2026-10-22', '2026-10-23', '2026-10-24'])
+    expect(days.map((d) => d.revenue)).toEqual([1700.1, 0, 0, 0, 0, 0, 850])
+    expect(days[6].salesCount).toBe(1)
+  })
+})
+
+describe('topProducts', () => {
+  it('ranks products by units, then revenue', () => {
+    expect(topProducts(SALES, 3).map((p) => [p.productId, p.units, p.revenue])).toEqual([
+      [4, 5, 500],
+      [2, 2, 1700.1],
+      [1, 1, 850],
+    ])
+  })
+})
+
+describe('recentSales', () => {
+  it('returns the newest sales first, voided ones included', () => {
+    expect(recentSales(SALES, 3).map((s) => s.id)).toEqual([1, 4, 2])
+  })
+})
+
+describe('stockWatch', () => {
+  const products = [
+    { id: 1, name: 'Rose', onHand: 24 },
+    { id: 2, name: 'Vanilla', onHand: 3 },
+    { id: 3, name: 'Oud', onHand: 0 },
+    { id: 4, name: 'Citrus', onHand: 8, reorderLevel: 10 },
+  ]
+
+  it('lists products at or below their reorder level, emptiest first', () => {
+    expect(stockWatch(products).map((p) => [p.name, p.status])).toEqual([
+      ['Oud', 'out'],
+      ['Vanilla', 'low'],
+      ['Citrus', 'low'],
+    ])
+  })
+
+  it('uses a product reorder level when it has one, and the default otherwise', () => {
+    expect(stockWatch(products).find((p) => p.name === 'Vanilla').reorderLevel).toBe(5)
+    expect(stockWatch(products).find((p) => p.name === 'Citrus').reorderLevel).toBe(10)
   })
 })
