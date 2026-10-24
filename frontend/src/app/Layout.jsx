@@ -48,10 +48,10 @@ export default function Layout() {
           ))}
         </nav>
       </aside>
+      <Leaves className="app-leaves app-leaves-top" />
+      <Leaves className="app-leaves app-leaves-bottom" />
       <main className="app-main">
-        <Leaves className="app-leaves app-leaves-top" />
         <Outlet />
-        <Leaves className="app-leaves app-leaves-bottom" />
       </main>
     </div>
   )

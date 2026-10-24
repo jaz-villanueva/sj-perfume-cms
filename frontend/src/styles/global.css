@@ -64,7 +64,9 @@ textarea {
 /* ---- app shell: marble sidebar on wide screens, top bar with a menu on phones ---- */
 
 .app-shell {
+  position: relative;
   min-height: 100vh;
+  overflow-x: clip; /* keeps the corner leaves from widening the page */
 }
 
 .app-sidebar {
@@ -187,18 +189,17 @@ textarea {
   z-index: 1;
   max-width: 1240px;
   padding: 1.25rem 1rem 3rem;
-  overflow: clip; /* the corner leaves are cropped at the page edge */
 }
 
 /* ---- ornaments: dried leaves in the page corners ---- */
 
-/* Drawn for the bottom-left corner, and turned round for the top-right. Each is pushed partly
-   past the page edge, so the leaves look cropped like a photograph and stay in the margins. */
+/* Drawn for the bottom-left corner, and turned round for the top-right corner of the window.
+   They grow out of the corners, in the margins behind the page. */
 .app-leaves {
   display: none;
   position: absolute;
-  z-index: -1;
-  width: clamp(10rem, 13vw, 14rem);
+  z-index: 0;
+  width: clamp(9rem, 11vw, 13rem);
   aspect-ratio: 1;
   pointer-events: none;
 }
@@ -206,13 +207,12 @@ textarea {
 .app-leaves-top {
   top: 0;
   right: 0;
-  transform: translate(12%, -12%) rotate(180deg);
+  transform: rotate(180deg);
 }
 
 .app-leaves-bottom {
-  left: 0;
+  left: 15rem; /* just right of the sidebar */
   bottom: 0;
-  transform: translate(-14%, 14%);
 }
 
 @media (min-width: 56rem) {
