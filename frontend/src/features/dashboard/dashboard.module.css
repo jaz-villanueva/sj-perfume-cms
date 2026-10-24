@@ -1,37 +1,80 @@
-/* Dashboard styles (Module 3). CSS modules keep the class names local to this screen. */
+/* Dashboard styles (Module 3). CSS modules keep these class names local to this screen.
+   Look: cream paper, white cards with hairline borders, serif figures, bronze data marks. */
+
+.page {
+  display: grid;
+  gap: 1.25rem;
+}
+
+/* ---- header ---- */
 
 .header {
   display: flex;
   flex-wrap: wrap;
   align-items: flex-end;
   justify-content: space-between;
-  gap: 0.75rem;
-  margin-bottom: 0.75rem;
+  gap: 1rem;
+  padding-bottom: 1.25rem;
+  border-bottom: 1px solid var(--color-border);
 }
 
-.header h1 {
+.eyebrow {
   margin: 0;
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+}
+
+.title {
+  margin: 0.2rem 0 0.15rem;
+  font-size: 3rem;
+  font-weight: 500;
+}
+
+.titleSwash {
+  display: block;
+  width: 10rem;
+  height: 1.1rem;
+  margin: 0.1rem 0 0.5rem -0.2rem;
+  color: var(--color-gold);
+}
+
+.lead {
+  margin: 0;
+  color: var(--color-muted);
+  font-weight: 300;
 }
 
 .period {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
+  display: grid;
+  gap: 0.35rem;
+}
+
+.period select {
+  min-width: 11rem;
+  padding: 0.45rem 2rem 0.45rem 0.75rem;
+  border: 1px solid var(--color-border);
+  border-radius: 999px;
+  background: var(--color-surface);
+  color: var(--color-text);
 }
 
 .sampleNote {
-  display: inline-block;
-  margin: 0 0 1rem;
-  padding: 0.25rem 0.5rem;
-  border-radius: 4px;
-  background: #fff4d6;
-  color: #7a4d00;
-  font-size: 0.9rem;
+  justify-self: start;
+  margin: 0;
+  padding: 0.3rem 0.9rem;
+  border: 1px solid var(--color-gold);
+  border-radius: 999px;
+  background: var(--color-accent-soft);
+  color: #6b5232;
+  font-size: 0.85rem;
 }
 
 .error {
+  margin: 0;
   color: #b42318;
-  margin: 0 0 1rem;
 }
 
 .muted {
@@ -42,156 +85,159 @@
 
 .tiles {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(10.5rem, 1fr));
-  gap: 0.75rem;
-  margin-bottom: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr));
+  gap: 1rem;
 }
 
 .tile {
   background: var(--color-surface);
   border: 1px solid var(--color-border);
-  border-radius: 8px;
-  padding: 0.85rem 1rem;
+  border-radius: 2px;
+  padding: 1.1rem 1.25rem;
 }
 
 .tileLabel {
   margin: 0;
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
   color: var(--color-muted);
-  font-size: 0.9rem;
 }
 
 .tileValue {
-  margin: 0.25rem 0 0;
-  font-size: 1.6rem;
-  font-weight: 600;
-  line-height: 1.2;
+  margin: 0.35rem 0 0;
+  font-family: var(--font-serif);
+  font-size: 2.2rem;
+  font-weight: 500;
+  line-height: 1.1;
   overflow-wrap: anywhere;
 }
 
 .hero {
   grid-column: span 2;
+  border-top: 2px solid var(--color-gold);
 }
 
 .hero .tileValue {
-  font-size: 3rem;
+  font-size: 3.4rem;
 }
 
 @media (max-width: 30rem) {
   .hero {
-    grid-column: auto;
+    grid-column: 1 / -1;
   }
 
   .hero .tileValue {
-    font-size: 2.25rem;
+    font-size: 2.6rem;
+  }
+
+  .tileValue {
+    font-size: 1.8rem;
   }
 }
 
-/* ---- panels ---- */
+/* ---- panel rows ---- */
 
-.panels {
+.rowWide,
+.rowThree {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 22rem), 1fr));
   gap: 1rem;
-  margin-bottom: 1rem;
+  grid-template-columns: minmax(0, 1fr);
+}
+
+@media (min-width: 64rem) {
+  .rowWide {
+    grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+  }
+
+  .rowThree {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
 }
 
 .panel {
   min-width: 0;
   background: var(--color-surface);
   border: 1px solid var(--color-border);
-  border-radius: 8px;
-  padding: 1rem;
+  border-radius: 2px;
+  padding: 1.25rem 1.35rem;
 }
 
 .panel h2 {
-  margin: 0 0 0.25rem;
-  font-size: 1.1rem;
+  margin: 0;
+  font-size: 1.55rem;
 }
 
 .subtitle {
-  margin: 0 0 0.5rem;
+  margin: 0.1rem 0 0.9rem;
   color: var(--color-muted);
-  font-size: 0.9rem;
+  font-size: 0.85rem;
+  font-weight: 300;
 }
 
-/* ---- channel bars: one series, value at the bar tip ---- */
+/* ---- channel bars: one series, label and value above each bar ---- */
 
 .barList {
   list-style: none;
-  margin: 0.75rem 0 0;
+  margin: 0;
   padding: 0;
   display: grid;
-  gap: 0.75rem;
+  gap: 1rem;
 }
 
-.barRow {
-  display: grid;
-  grid-template-columns: 9rem 1fr;
-  align-items: center;
-  gap: 0.75rem;
-}
-
-.barLabel {
+.barHeading {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0 0.75rem;
+  margin-bottom: 0.35rem;
   font-size: 0.95rem;
 }
 
-.barTrack {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  min-width: 0;
-}
-
-.bar {
-  flex: none;
-  width: max(2px, calc((100% - 10rem) * var(--share)));
-  height: 16px;
-  border-radius: 0 4px 4px 0;
-  background: var(--color-accent);
-}
-
 .barValue {
-  white-space: nowrap;
-  font-size: 0.9rem;
   font-variant-numeric: tabular-nums;
 }
 
-@media (max-width: 30rem) {
-  .barRow {
-    grid-template-columns: 1fr;
-    gap: 0.25rem;
-  }
+.barTrack {
+  height: 12px;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.bar {
+  display: block;
+  height: 100%;
+  border-radius: 0 4px 4px 0;
+  background: var(--color-accent);
 }
 
 /* ---- daily columns ---- */
 
 .readout {
-  min-height: 1.5rem;
+  min-height: 1.6rem;
   margin: 0 0 0.5rem;
 }
 
 .readout strong {
-  font-size: 1.1rem;
-}
-
-.chart {
-  position: relative;
+  font-family: var(--font-serif);
+  font-size: 1.35rem;
+  font-weight: 600;
 }
 
 .chartMax {
   display: block;
-  font-size: 0.8rem;
-  color: var(--color-muted);
-  font-variant-numeric: tabular-nums;
-  border-bottom: 1px solid #e6e8eb;
   padding-bottom: 2px;
+  border-bottom: 1px solid #efe9df;
+  color: var(--color-muted);
+  font-size: 0.75rem;
+  font-variant-numeric: tabular-nums;
 }
 
 .columns {
   display: flex;
   align-items: stretch;
-  height: 10rem;
-  border-bottom: 1px solid #c9d1d9;
+  height: 11rem;
+  border-bottom: 1px solid #d9cfc1;
 }
 
 .column {
@@ -200,8 +246,8 @@
   display: flex;
   align-items: flex-end;
   justify-content: center;
-  padding: 0 1px;
   margin: 0;
+  padding: 0 1px;
   border: 0;
   background: transparent;
   cursor: default;
@@ -220,20 +266,21 @@
 }
 
 .columnActive {
-  background: #8a62bd;
+  background: #a8885d;
 }
 
 .axis {
   display: flex;
   justify-content: space-between;
-  margin-top: 0.25rem;
-  font-size: 0.8rem;
+  margin-top: 0.3rem;
   color: var(--color-muted);
+  font-size: 0.75rem;
+  letter-spacing: 0.05em;
 }
 
 .tableToggle {
-  margin-top: 0.75rem;
-  font-size: 0.9rem;
+  margin-top: 0.9rem;
+  font-size: 0.85rem;
 }
 
 .tableToggle summary {
@@ -241,26 +288,89 @@
   color: var(--color-muted);
 }
 
+/* ---- tables ---- */
+
+.tableScroll {
+  overflow-x: auto;
+}
+
 .table {
   width: 100%;
-  margin-top: 0.5rem;
   border-collapse: collapse;
-  font-size: 0.9rem;
+  font-size: 0.92rem;
 }
 
 .table th,
 .table td {
-  text-align: left;
-  padding: 0.35rem 0.5rem;
+  padding: 0.55rem 0.4rem;
   border-bottom: 1px solid var(--color-border);
+  text-align: left;
+  vertical-align: top;
 }
 
 .table th {
+  padding-top: 0;
+  font-size: 0.68rem;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
   color: var(--color-muted);
-  font-weight: 600;
+  white-space: nowrap;
+}
+
+.table tbody tr:last-child td {
+  border-bottom: 0;
 }
 
 .number {
   text-align: right !important;
   font-variant-numeric: tabular-nums;
+}
+
+.sku {
+  display: block;
+  color: var(--color-muted);
+  font-size: 0.75rem;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+}
+
+.voided td {
+  color: var(--color-muted);
+  text-decoration: line-through;
+}
+
+/* ---- stock status: label text always present, colour only supports it ---- */
+
+.status {
+  display: inline-block;
+  padding: 0.12rem 0.55rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.statusOut {
+  background: #fbe9e7;
+  color: #8a1c12;
+}
+
+.statusLow {
+  background: #fbf1dc;
+  color: #7a4d00;
+}
+
+/* ---- features that arrive with later work ---- */
+
+.planned {
+  border: 1px dashed var(--color-gold);
+  background: transparent;
+}
+
+.planned p {
+  margin: 0.35rem 0 0;
+  color: var(--color-muted);
+  font-size: 0.9rem;
+  font-weight: 300;
 }

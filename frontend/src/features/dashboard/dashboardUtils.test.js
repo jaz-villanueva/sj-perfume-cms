@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { byChannel, dailyRevenue, recentSales, salesInPeriod, stockWatch, summarize, topProducts } from './dashboardUtils.js'
+import { byChannel, dailyRevenue, recentSales, salesInPeriod, stockWatch, summarize, topBuyers, topProducts } from './dashboardUtils.js'
 
 // Local dates, so the tests don't depend on the machine's time zone.
 const at = (month, day, hour = 10) => new Date(2026, month - 1, day, hour).toISOString()
@@ -71,6 +71,23 @@ describe('topProducts', () => {
       [4, 5, 500],
       [2, 2, 1700.1],
       [1, 1, 850],
+    ])
+  })
+})
+
+describe('topBuyers', () => {
+  const buyers = [
+    sale(1, at(10, 1), 500, [], { customerId: 7, customerName: 'Ana Reyes' }),
+    sale(2, at(10, 2), 300, [], { customerId: 7, customerName: 'Ana Reyes' }),
+    sale(3, at(10, 3), 4800, [], { channel: 'reseller', resellerId: 1, resellerName: 'Scents by Mia' }),
+    sale(4, at(10, 4), 900, []),
+    sale(5, at(10, 5), 9999, [], { customerId: 8, customerName: 'Voided Buyer', status: 'voided' }),
+  ]
+
+  it('ranks customers and resellers by revenue, skipping anonymous and voided sales', () => {
+    expect(topBuyers(buyers).map((b) => [b.kind, b.name, b.salesCount, b.revenue])).toEqual([
+      ['reseller', 'Scents by Mia', 1, 4800],
+      ['customer', 'Ana Reyes', 2, 800],
     ])
   })
 })

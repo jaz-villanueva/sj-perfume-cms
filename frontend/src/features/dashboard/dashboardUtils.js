@@ -89,6 +89,26 @@ export function topProducts(sales, limit = 5) {
     .map((product) => ({ ...product, revenue: fromCentavos(product.revenue) }))
 }
 
+// Customer and reseller activity (FR-11): who bought the most in the period. Walk-in sales with
+// no customer recorded are left out.
+export function topBuyers(sales, limit = 5) {
+  const buyers = new Map()
+  for (const sale of countedSales(sales)) {
+    const kind = sale.resellerId ? 'reseller' : sale.customerId ? 'customer' : null
+    if (!kind) continue
+    const id = kind === 'reseller' ? sale.resellerId : sale.customerId
+    const key = `${kind}:${id}`
+    const buyer = buyers.get(key) ?? { key, kind, id, name: (kind === 'reseller' ? sale.resellerName : sale.customerName) ?? 'Unknown', salesCount: 0, revenue: 0 }
+    buyer.salesCount += 1
+    buyer.revenue += toCentavos(sale.total)
+    buyers.set(key, buyer)
+  }
+  return [...buyers.values()]
+    .sort((a, b) => b.revenue - a.revenue || b.salesCount - a.salesCount)
+    .slice(0, limit)
+    .map((buyer) => ({ ...buyer, revenue: fromCentavos(buyer.revenue) }))
+}
+
 export const recentSales = (sales, limit = 5) =>
   [...sales].sort((a, b) => b.soldAt.localeCompare(a.soldAt)).slice(0, limit)
 

@@ -31,4 +31,23 @@ The "API" is Supabase:
 | `public_catalog` view (`GET /rest/v1/public_catalog`) | Member 1 | Public catalog page (no login) | Approved product fields + availability label; readable by `anon` with the publishable key only |
 | report RPCs (`sales_summary`, `trend_series`, ...) | Member 3 | Reports, trends, dashboard | Owner-only aggregates |
 
+### Dashboard (FR-11, Member 3)
+
+The dashboard calls these once the sample-data switch is off (`frontend/src/features/dashboard/dashboardApi.js`). They depend on the products, stock and sales tables from #1–#3.
+
+- `dashboard_summary(p_days int, p_chart_days int) returns jsonb` (Owner; a reduced version for Staff once roles exist). `p_days = 0` means all time. Voided sales never count. Returns:
+
+  ```json
+  {
+    "summary":      { "revenue": "9150.00", "sales_count": 3, "units": 18, "average_sale": "3050.00" },
+    "by_channel":   [{ "channel": "walk_in", "revenue": "850.00", "sales_count": 1 }],
+    "daily":        [{ "day": "2026-10-14", "revenue": "850.00", "sales_count": 1 }],
+    "top_products": [{ "product_id": 4, "sku": "SJ-000104", "name": "Citrus Bloom Body Mist", "units": 12, "revenue": "3500.00" }],
+    "top_buyers":   [{ "kind": "reseller", "id": 1, "name": "Scents by Mia", "sales_count": 1, "revenue": "7600.00" }]
+  }
+  ```
+
+  `daily` lists only days with sales, in PHT, for the last `p_chart_days` days; the app fills the empty days. Money is `numeric(12,2)` returned as strings.
+- `low_stock` view: `id, sku, name, on_hand, reorder_level` for active products with `on_hand <= reorder_level` (FR-6). Readable by Owner and Staff.
+
 Detailed payload schemas are added here in the pull request that implements each function. The OpenAPI 3 document required by NFR-12 is generated from this file at the end of the project.

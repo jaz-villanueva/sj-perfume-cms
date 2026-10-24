@@ -1,13 +1,21 @@
 :root {
-  --color-bg: #f7f7f8;
+  /* Perfume-house palette: cream paper, white cards, ink text, bronze and champagne accents. */
+  --color-bg: #faf7f2;
   --color-surface: #ffffff;
-  --color-text: #1f2328;
-  --color-muted: #59636e;
-  --color-border: #d1d9e0;
-  --color-accent: #6b3fa0;
+  --color-text: #1d1a17;
+  --color-muted: #776d64;
+  --color-border: #e9e2d8;
+  --color-accent: #8c6d46; /* bronze: links, active navigation, chart marks */
+  --color-accent-soft: #f4ede3; /* champagne wash: hover and selected backgrounds */
+  --color-gold: #c2a77f; /* decorative rules only, never text or data */
 
-  font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
-  line-height: 1.5;
+  --font-sans: 'Jost', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --font-serif: 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
+  --font-script: 'Great Vibes', 'Brush Script MT', cursive;
+
+  font-family: var(--font-sans);
+  font-weight: 400;
+  line-height: 1.55;
   color: var(--color-text);
   background: var(--color-bg);
 }
@@ -21,47 +29,230 @@
 body {
   margin: 0;
   min-width: 320px;
+  background: var(--color-bg);
 }
 
-.app-header {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 0.5rem 1.5rem;
-  padding: 0.75rem 1rem;
+h1,
+h2,
+h3 {
+  font-family: var(--font-serif);
+  font-weight: 500;
+  line-height: 1.15;
+}
+
+h1 {
+  font-size: 2.6rem;
+  letter-spacing: 0.01em;
+}
+
+a {
+  color: var(--color-accent);
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+/* ---- app shell: sidebar on wide screens, top bar with a menu on phones ---- */
+
+.app-shell {
+  min-height: 100vh;
+}
+
+.app-sidebar {
   background: var(--color-surface);
   border-bottom: 1px solid var(--color-border);
 }
 
-.app-title {
-  font-weight: 700;
-  color: var(--color-accent);
+.app-brand {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.75rem 1rem;
+}
+
+.app-wordmark {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: var(--color-text);
+  text-decoration: none;
+  line-height: 1;
+}
+
+.app-wordmark-script {
+  font-family: var(--font-script);
+  font-size: 2.3rem;
+  font-weight: 400;
+  line-height: 1.1;
+  white-space: nowrap;
+}
+
+.app-wordmark-caps {
+  padding-left: 0.42em; /* balances the trailing letter-spacing so the caps sit centred */
+  font-family: var(--font-serif);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.42em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+}
+
+.app-menu-button {
+  padding: 0.35rem 0.8rem;
+  border: 1px solid var(--color-border);
+  border-radius: 999px;
+  background: transparent;
+  font-size: 0.75rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  cursor: pointer;
 }
 
 .app-nav {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.25rem 1rem;
+  display: none;
+  padding: 0 1rem 1rem;
+}
+
+.app-nav[data-open='true'] {
+  display: block;
+}
+
+.app-nav-section + .app-nav-section {
+  margin-top: 1.1rem;
+}
+
+.app-nav-title {
+  margin: 0 0 0.35rem 0.75rem;
+  font-size: 0.66rem;
+  font-weight: 500;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+}
+
+.app-nav ul {
   margin: 0;
   padding: 0;
   list-style: none;
 }
 
 .app-nav a {
-  color: var(--color-muted);
+  display: block;
+  padding: 0.4rem 0.75rem;
+  border-left: 2px solid transparent;
+  color: var(--color-text);
+  font-size: 0.95rem;
   text-decoration: none;
 }
 
+.app-nav a:hover {
+  background: var(--color-accent-soft);
+}
+
 .app-nav a.active {
+  border-left-color: var(--color-accent);
+  background: var(--color-accent-soft);
   color: var(--color-accent);
-  font-weight: 600;
+  font-weight: 500;
 }
 
 .app-main {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 1rem;
+  position: relative;
+  z-index: 1;
+  max-width: 1240px;
+  padding: 1.25rem 1rem 3rem;
 }
+
+/* ---- ornaments: calligraphic line art in champagne gold ---- */
+
+.app-wordmark-swash {
+  display: block;
+  width: 7.5rem;
+  height: 0.9rem;
+  margin-top: 0.45rem;
+  color: var(--color-gold);
+}
+
+.app-ornament {
+  display: none;
+  position: fixed;
+  top: 50%;
+  z-index: 0;
+  width: 3.25rem;
+  height: min(78vh, 40rem);
+  color: var(--color-gold);
+  opacity: 0.75;
+  pointer-events: none;
+  transform: translateY(-50%);
+}
+
+.app-ornament-left {
+  left: calc(15rem + 0.9rem);
+}
+
+.app-ornament-right {
+  right: 0.9rem;
+  transform: translateY(-50%) scaleX(-1);
+}
+
+@media (min-width: 56rem) {
+  .app-shell {
+    display: grid;
+    grid-template-columns: 15rem minmax(0, 1fr);
+  }
+
+  .app-sidebar {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow-y: auto;
+    border-bottom: 0;
+    border-right: 1px solid var(--color-border);
+  }
+
+  .app-brand {
+    padding: 1.75rem 1.5rem 1.5rem;
+  }
+
+  .app-brand {
+    justify-content: center;
+  }
+
+  .app-wordmark-script {
+    font-size: 2.9rem;
+  }
+
+  .app-menu-button {
+    display: none;
+  }
+
+  .app-nav {
+    display: block;
+    padding: 0 0.75rem 2rem;
+  }
+
+  .app-main {
+    padding: 2rem 2.5rem 4rem;
+  }
+}
+
+/* The side vines need a margin of their own, so they only appear on wide screens. */
+@media (min-width: 80rem) {
+  .app-ornament {
+    display: block;
+  }
+
+  .app-main {
+    padding-inline: 5.5rem;
+  }
+}
+
+/* ---- placeholder pages ---- */
 
 .placeholder-meta {
   display: grid;
