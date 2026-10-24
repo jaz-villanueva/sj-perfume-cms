@@ -1,17 +1,19 @@
 :root {
-  /* Perfume-house palette: cream paper, white cards, ink text, bronze and champagne accents. */
-  --color-bg: #faf7f2;
+  /* SJ Perfume's own look: black and white like their labels and signage, white marble,
+     dried-leaf taupe, and a touch of the blush pink from their stalls. */
+  --color-bg: #f8f7f5;
   --color-surface: #ffffff;
-  --color-text: #1d1a17;
-  --color-muted: #776d64;
-  --color-border: #e9e2d8;
-  --color-accent: #8c6d46; /* bronze: links, active navigation, chart marks */
-  --color-accent-soft: #f4ede3; /* champagne wash: hover and selected backgrounds */
-  --color-gold: #c2a77f; /* decorative rules only, never text or data */
+  --color-text: #141414;
+  --color-muted: #6e6964;
+  --color-border: #e7e3de;
+  --color-accent: #141414; /* black: buttons, links, active navigation, chart marks */
+  --color-accent-soft: #f0eeeb; /* light grey: hover and selected backgrounds */
+  --color-rose: #c99584; /* rose gold: thin decorative lines only, never text or data */
+  --color-blush: #f8e6e3; /* blush pink: sparing highlights */
+  --color-taupe: #b9a890; /* dried leaves */
 
-  --font-sans: 'Jost', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --font-sans: 'Poppins', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
   --font-serif: 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
-  --font-script: 'Great Vibes', 'Brush Script MT', cursive;
 
   font-family: var(--font-sans);
   font-weight: 400;
@@ -36,13 +38,16 @@ h1,
 h2,
 h3 {
   font-family: var(--font-serif);
-  font-weight: 500;
+  font-weight: 600;
   line-height: 1.15;
 }
 
+/* Page titles in spaced serif capitals, like "ALL DAY CONFIDENCE" on their posters. */
 h1 {
-  font-size: 2.6rem;
-  letter-spacing: 0.01em;
+  font-size: 2.4rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
 }
 
 a {
@@ -56,14 +61,14 @@ textarea {
   font: inherit;
 }
 
-/* ---- app shell: sidebar on wide screens, top bar with a menu on phones ---- */
+/* ---- app shell: marble sidebar on wide screens, top bar with a menu on phones ---- */
 
 .app-shell {
   min-height: 100vh;
 }
 
 .app-sidebar {
-  background: var(--color-surface);
+  background: var(--color-surface) url('../assets/marble.webp') center / cover;
   border-bottom: 1px solid var(--color-border);
 }
 
@@ -77,38 +82,53 @@ textarea {
 
 .app-wordmark {
   display: flex;
-  flex-direction: column;
   align-items: center;
+  gap: 0.75rem;
   color: var(--color-text);
   text-decoration: none;
   line-height: 1;
 }
 
-.app-wordmark-script {
-  font-family: var(--font-script);
-  font-size: 2.3rem;
-  font-weight: 400;
-  line-height: 1.1;
+/* The company's seal (Samantha & Jermaigne Perfume Trading). */
+.app-logo {
+  display: block;
+  width: 2.75rem;
+  height: 2.75rem;
+}
+
+/* The black band from their signage and labels: "SJ PERFUME" over a lowercase line. */
+.app-wordmark-text {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.app-wordmark-band {
+  padding: 0.3rem 0.45rem 0.3rem 0.65rem; /* extra on the left balances the trailing letter-spacing */
+  background: #000;
+  color: #fff;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
   white-space: nowrap;
 }
 
-.app-wordmark-caps {
-  padding-left: 0.42em; /* balances the trailing letter-spacing so the caps sit centred */
-  font-family: var(--font-serif);
-  font-size: 0.72rem;
-  font-weight: 600;
-  letter-spacing: 0.42em;
-  text-transform: uppercase;
-  color: var(--color-muted);
+.app-wordmark-sub {
+  font-size: 0.66rem;
+  font-weight: 500;
+  letter-spacing: 0.3em;
 }
 
 .app-menu-button {
-  padding: 0.35rem 0.8rem;
-  border: 1px solid var(--color-border);
+  padding: 0.35rem 0.9rem;
+  border: 1px solid var(--color-text);
   border-radius: 999px;
-  background: transparent;
-  font-size: 0.75rem;
-  letter-spacing: 0.2em;
+  background: var(--color-surface);
+  color: var(--color-text);
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
   cursor: pointer;
 }
@@ -123,14 +143,14 @@ textarea {
 }
 
 .app-nav-section + .app-nav-section {
-  margin-top: 1.1rem;
+  margin-top: 1rem;
 }
 
 .app-nav-title {
-  margin: 0 0 0.35rem 0.75rem;
-  font-size: 0.66rem;
+  margin: 0 0 0.3rem 0.9rem;
+  font-size: 0.64rem;
   font-weight: 500;
-  letter-spacing: 0.24em;
+  letter-spacing: 0.22em;
   text-transform: uppercase;
   color: var(--color-muted);
 }
@@ -141,23 +161,24 @@ textarea {
   list-style: none;
 }
 
+/* Links are pills; the current page is a black pill, like their "Shop Now" buttons. */
 .app-nav a {
   display: block;
-  padding: 0.4rem 0.75rem;
-  border-left: 2px solid transparent;
+  margin: 1px 0;
+  padding: 0.42rem 0.9rem;
+  border-radius: 999px;
   color: var(--color-text);
-  font-size: 0.95rem;
+  font-size: 0.9rem;
   text-decoration: none;
 }
 
 .app-nav a:hover {
-  background: var(--color-accent-soft);
+  background: rgba(20, 20, 20, 0.06);
 }
 
 .app-nav a.active {
-  border-left-color: var(--color-accent);
-  background: var(--color-accent-soft);
-  color: var(--color-accent);
+  background: var(--color-accent);
+  color: #fff;
   font-weight: 500;
 }
 
@@ -166,38 +187,32 @@ textarea {
   z-index: 1;
   max-width: 1240px;
   padding: 1.25rem 1rem 3rem;
+  overflow: clip; /* the corner leaves are cropped at the page edge */
 }
 
-/* ---- ornaments: calligraphic line art in champagne gold ---- */
+/* ---- ornaments: dried leaves in the page corners ---- */
 
-.app-wordmark-swash {
-  display: block;
-  width: 7.5rem;
-  height: 0.9rem;
-  margin-top: 0.45rem;
-  color: var(--color-gold);
-}
-
-/* Corner flourishes framing the page: drawn for the bottom-left corner, and turned round for
-   the top-right. They sit in the page margins, behind the content. */
-.app-flourish {
+/* Drawn for the bottom-left corner, and turned round for the top-right. Each is pushed partly
+   past the page edge, so the leaves look cropped like a photograph and stay in the margins. */
+.app-leaves {
   display: none;
   position: absolute;
   z-index: -1;
-  width: clamp(11rem, 14vw, 15rem);
+  width: clamp(10rem, 13vw, 14rem);
   aspect-ratio: 1;
   pointer-events: none;
 }
 
-.app-flourish-top {
+.app-leaves-top {
   top: 0;
   right: 0;
-  transform: rotate(180deg);
+  transform: translate(12%, -12%) rotate(180deg);
 }
 
-.app-flourish-bottom {
+.app-leaves-bottom {
   left: 0;
   bottom: 0;
+  transform: translate(-14%, 14%);
 }
 
 @media (min-width: 56rem) {
@@ -216,15 +231,22 @@ textarea {
   }
 
   .app-brand {
-    padding: 1.75rem 1.5rem 1.5rem;
-  }
-
-  .app-brand {
     justify-content: center;
+    padding: 1.75rem 1.25rem 1.5rem;
   }
 
-  .app-wordmark-script {
-    font-size: 2.9rem;
+  .app-wordmark {
+    flex-direction: column;
+    gap: 0.9rem;
+  }
+
+  .app-logo {
+    width: 6.5rem;
+    height: 6.5rem;
+  }
+
+  .app-wordmark-band {
+    font-size: 0.95rem;
   }
 
   .app-menu-button {
@@ -241,9 +263,9 @@ textarea {
   }
 }
 
-/* The flourishes need a margin of their own, so they only appear on wide screens. */
+/* The leaves need a margin of their own, so they only appear on wide screens. */
 @media (min-width: 80rem) {
-  .app-flourish {
+  .app-leaves {
     display: block;
   }
 

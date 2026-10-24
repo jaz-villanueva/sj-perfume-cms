@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Link, NavLink, Outlet } from 'react-router'
-import { Flourish, Swash } from '../components/Ornament.jsx'
+import logo from '../assets/sj-logo.webp'
+import { Leaves } from '../components/Ornament.jsx'
 import { navItems } from './featureRoutes.js'
 import { groupNav } from './navSections.js'
 
@@ -14,10 +15,11 @@ export default function Layout() {
       <aside className="app-sidebar">
         <div className="app-brand">
           <Link to="/" className="app-wordmark" aria-label="SJ Perfume Trading home">
-            <span className="app-wordmark-caps">SJ</span>
-            <span className="app-wordmark-script">Perfume</span>
-            <span className="app-wordmark-caps">Trading</span>
-            <Swash className="app-wordmark-swash" />
+            <img src={logo} alt="" className="app-logo" width="512" height="512" />
+            <span className="app-wordmark-text" aria-hidden="true">
+              <span className="app-wordmark-band">SJ PERFUME</span>
+              <span className="app-wordmark-sub">trading</span>
+            </span>
           </Link>
           <button
             type="button"
@@ -47,9 +49,9 @@ export default function Layout() {
         </nav>
       </aside>
       <main className="app-main">
-        <Flourish className="app-flourish app-flourish-top" />
+        <Leaves className="app-leaves app-leaves-top" />
         <Outlet />
-        <Flourish className="app-flourish app-flourish-bottom" />
+        <Leaves className="app-leaves app-leaves-bottom" />
       </main>
     </div>
   )

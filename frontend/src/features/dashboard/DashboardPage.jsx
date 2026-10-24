@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react'
-import { Swash } from '../../components/Ornament.jsx'
 import { formatPeso } from '../sales/saleUtils.js'
 import ChannelBreakdown from './ChannelBreakdown.jsx'
 import DailySalesChart from './DailySalesChart.jsx'
@@ -40,9 +39,8 @@ export default function DashboardPage() {
     <section className={styles.page}>
       <header className={styles.header}>
         <div>
-          <p className={styles.eyebrow}>Overview</p>
+          <p className={styles.band}>Overview</p>
           <h1 className={styles.title}>Dashboard</h1>
-          <Swash className={styles.titleSwash} />
           <p className={styles.lead}>Sales, stock and customer activity at a glance.</p>
         </div>
         <label className={styles.period}>

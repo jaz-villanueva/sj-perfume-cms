@@ -1,5 +1,6 @@
 /* Dashboard styles (Module 3). CSS modules keep these class names local to this screen.
-   Look: cream paper, white cards with hairline borders, serif figures, bronze data marks. */
+   Look: SJ Perfume's black-and-white labels, white cards with hairline borders, black data marks,
+   rose gold only in thin lines. */
 
 .page {
   display: grid;
@@ -20,25 +21,39 @@
 
 .eyebrow {
   margin: 0;
-  font-size: 0.7rem;
+  font-size: 0.66rem;
   font-weight: 500;
-  letter-spacing: 0.28em;
+  letter-spacing: 0.22em;
   text-transform: uppercase;
   color: var(--color-muted);
 }
 
-.title {
-  margin: 0.2rem 0 0.15rem;
-  font-size: 3rem;
-  font-weight: 500;
+/* White capitals on a black band, like the "SJ PERFUME" on their labels. */
+.band {
+  display: inline-block;
+  margin: 0;
+  padding: 0.2rem 0.5rem 0.2rem 0.74rem;
+  background: #000;
+  color: #fff;
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
 }
 
-.titleSwash {
+.title {
+  margin: 0.55rem 0 0;
+  font-size: 3rem;
+}
+
+/* a short rose-gold rule, like the trim on their marble display */
+.title::after {
+  content: '';
   display: block;
-  width: 10rem;
-  height: 1.1rem;
-  margin: 0.1rem 0 0.5rem -0.2rem;
-  color: var(--color-gold);
+  width: 3rem;
+  height: 1px;
+  margin: 0.75rem 0 0.7rem;
+  background: var(--color-rose);
 }
 
 .lead {
@@ -54,8 +69,8 @@
 
 .period select {
   min-width: 11rem;
-  padding: 0.45rem 2rem 0.45rem 0.75rem;
-  border: 1px solid var(--color-border);
+  padding: 0.45rem 2rem 0.45rem 0.9rem;
+  border: 1px solid #cfcac4;
   border-radius: 999px;
   background: var(--color-surface);
   color: var(--color-text);
@@ -64,12 +79,12 @@
 .sampleNote {
   justify-self: start;
   margin: 0;
-  padding: 0.3rem 0.9rem;
-  border: 1px solid var(--color-gold);
+  padding: 0.3rem 0.95rem;
+  border: 1px solid #d6d1cb;
   border-radius: 999px;
-  background: var(--color-accent-soft);
-  color: #6b5232;
-  font-size: 0.85rem;
+  background: var(--color-surface);
+  color: var(--color-muted);
+  font-size: 0.8rem;
 }
 
 .error {
@@ -92,35 +107,45 @@
 .tile {
   background: var(--color-surface);
   border: 1px solid var(--color-border);
-  border-radius: 2px;
+  border-radius: 4px;
   padding: 1.1rem 1.25rem;
 }
 
 .tileLabel {
   margin: 0;
-  font-size: 0.7rem;
+  font-size: 0.66rem;
   font-weight: 500;
-  letter-spacing: 0.24em;
+  letter-spacing: 0.2em;
   text-transform: uppercase;
   color: var(--color-muted);
 }
 
 .tileValue {
-  margin: 0.35rem 0 0;
-  font-family: var(--font-serif);
-  font-size: 2.2rem;
+  margin: 0.4rem 0 0;
+  font-size: 1.85rem;
   font-weight: 500;
-  line-height: 1.1;
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+  font-variant-numeric: tabular-nums;
   overflow-wrap: anywhere;
 }
 
+/* Revenue: black, like their label bands, with a rose-gold edge. */
 .hero {
   grid-column: span 2;
-  border-top: 2px solid var(--color-gold);
+  border: 0;
+  border-top: 2px solid var(--color-rose);
+  background: #000;
+  color: #fff;
+}
+
+.hero .tileLabel {
+  color: #c9c3bc;
 }
 
 .hero .tileValue {
-  font-size: 3.4rem;
+  font-size: 2.9rem;
+  font-weight: 500;
 }
 
 @media (max-width: 30rem) {
@@ -129,11 +154,11 @@
   }
 
   .hero .tileValue {
-    font-size: 2.6rem;
+    font-size: 2.3rem;
   }
 
   .tileValue {
-    font-size: 1.8rem;
+    font-size: 1.55rem;
   }
 }
 
@@ -160,19 +185,22 @@
   min-width: 0;
   background: var(--color-surface);
   border: 1px solid var(--color-border);
-  border-radius: 2px;
+  border-radius: 4px;
   padding: 1.25rem 1.35rem;
 }
 
+/* Panel titles in spaced serif capitals, like "WOMEN'S COLLECTION". */
 .panel h2 {
   margin: 0;
-  font-size: 1.55rem;
+  font-size: 1.3rem;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
 }
 
 .subtitle {
-  margin: 0.1rem 0 0.9rem;
+  margin: 0.15rem 0 0.9rem;
   color: var(--color-muted);
-  font-size: 0.85rem;
+  font-size: 0.8rem;
   font-weight: 300;
 }
 
@@ -219,15 +247,14 @@
 }
 
 .readout strong {
-  font-family: var(--font-serif);
-  font-size: 1.35rem;
+  font-size: 1.15rem;
   font-weight: 600;
 }
 
 .chartMax {
   display: block;
   padding-bottom: 2px;
-  border-bottom: 1px solid #efe9df;
+  border-bottom: 1px solid #ece9e5;
   color: var(--color-muted);
   font-size: 0.75rem;
   font-variant-numeric: tabular-nums;
@@ -237,7 +264,7 @@
   display: flex;
   align-items: stretch;
   height: 11rem;
-  border-bottom: 1px solid #d9cfc1;
+  border-bottom: 1px solid #d5d0ca;
 }
 
 .column {
@@ -266,7 +293,7 @@
 }
 
 .columnActive {
-  background: #a8885d;
+  background: #6b6b6b;
 }
 
 .axis {
@@ -297,7 +324,7 @@
 .table {
   width: 100%;
   border-collapse: collapse;
-  font-size: 0.92rem;
+  font-size: 0.88rem;
 }
 
 .table th,
@@ -310,9 +337,9 @@
 
 .table th {
   padding-top: 0;
-  font-size: 0.68rem;
+  font-size: 0.64rem;
   font-weight: 500;
-  letter-spacing: 0.18em;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
   color: var(--color-muted);
   white-space: nowrap;
@@ -344,33 +371,33 @@
 
 .status {
   display: inline-block;
-  padding: 0.12rem 0.55rem;
+  padding: 0.12rem 0.6rem;
   border-radius: 999px;
-  font-size: 0.75rem;
+  font-size: 0.72rem;
   font-weight: 500;
   white-space: nowrap;
 }
 
 .statusOut {
-  background: #fbe9e7;
-  color: #8a1c12;
+  background: #000;
+  color: #fff;
 }
 
 .statusLow {
-  background: #fbf1dc;
-  color: #7a4d00;
+  background: var(--color-blush);
+  color: #873a31;
 }
 
 /* ---- features that arrive with later work ---- */
 
 .planned {
-  border: 1px dashed var(--color-gold);
+  border: 1px dashed #cdc7c0;
   background: transparent;
 }
 
 .planned p {
   margin: 0.35rem 0 0;
   color: var(--color-muted);
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   font-weight: 300;
 }
