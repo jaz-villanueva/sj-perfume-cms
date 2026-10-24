@@ -106,13 +106,14 @@ const supabaseApi = {
   async listProducts() {
     const { data, error } = await supabase
       .from('products')
-      .select('id, sku, name, brand, size_ml, retail_price, reseller_price, product_stock(on_hand)')
+      .select('id, sku, name, brand, size_ml, retail_price, reseller_price, reorder_level, product_stock(on_hand)')
       .eq('is_active', true)
       .order('name')
     if (error) fail(error)
     return data.map((p) => ({
       id: p.id, sku: p.sku, name: p.name, brand: p.brand, sizeMl: p.size_ml,
-      retailPrice: Number(p.retail_price), resellerPrice: Number(p.reseller_price), onHand: p.product_stock?.on_hand ?? 0,
+      retailPrice: Number(p.retail_price), resellerPrice: Number(p.reseller_price), reorderLevel: p.reorder_level,
+      onHand: p.product_stock?.on_hand ?? 0,
     }))
   },
   async listResellers() {
@@ -144,7 +145,7 @@ const supabaseApi = {
     return { id: data.sale_id, saleNo: data.sale_no, total: Number(data.total) }
   },
   async voidSale(saleId, reason) {
-    const { error } = await supabase.rpc('void_sale', { sale_id: saleId, reason })
+    const { error } = await supabase.rpc('void_sale', { p_sale_id: saleId, p_reason: reason })
     if (error) fail(error)
   },
 }

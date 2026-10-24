@@ -20,8 +20,11 @@
 | `customerUtils.js` | Mobile number normalisation, validation, search matching |
 | `customersApi.js` | Data access. Uses Supabase when `frontend/.env.local` is filled in, otherwise sample data in memory |
 
+## Database
+
+The `customers` table is created by `supabase/migrations/20261024130000_base_tables_and_sales.sql`: unique mobile stored as `09XXXXXXXXX`, `consent_at not null`, readable and editable by Owner and Staff, never deleted.
+
 ## Still to do
 
-- Migration with the `customers` table (unique normalised mobile, `consent_at not null`), RLS and pgTAP tests.
 - Owner-only export and anonymise (`export_data_subject`, `anonymize_customer`) for NFR-14.
 - Server-side search once there are more than 1,000 customers.

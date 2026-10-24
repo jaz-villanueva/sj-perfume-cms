@@ -23,14 +23,15 @@
 | `salesApi.js` | Data access. Uses Supabase when `frontend/.env.local` is filled in, otherwise sample data in memory |
 | `module2.module.css` | Styles shared by the Sales and Customers screens |
 
-## Database functions this screen expects
+## Database
 
-Still to be written in a migration once the foundation tables (`products`, `product_stock`, `stock_movements`, `profiles`) are merged. The sample backend in `salesApi.js` follows the same rules.
+Created by `supabase/migrations/20261024130000_base_tables_and_sales.sql`, tested by `supabase/tests/database/01_sales.test.sql`.
 
-- `record_sale(payload jsonb)` with `payload = { channel, customer_id, reseller_id, lines: [{ product_id, quantity }] }`. Prices are looked up in the function (retail price, or reseller price for channel `reseller`), never sent from the browser. Locks the `product_stock` rows in product-id order, refuses with `P0001` and hint `only N available` if any line is short, and saves nothing in that case. Returns `{ sale_id, sale_no, total }`.
-- `void_sale(sale_id bigint, reason text)`: Owner only (`42501` otherwise). Refuses an already voided sale. Writes compensating movements and sets `status = 'voided'`, `voided_at`, `voided_by`, `void_reason`.
+- `record_sale(payload jsonb)` with `payload = { channel, customer_id, reseller_id, lines: [{ product_id, quantity }] }`. Prices are looked up in the function (retail price, or reseller price for channel `reseller`), never sent from the browser. Locks the `product_stock` rows in product-id order, refuses with `P0001` and a hint such as `Only 3 Vanilla Musk Eau de Parfum available.` if any line is short, and saves nothing in that case. Returns `{ sale_id, sale_no, total }`. Owner or Staff.
+- `void_sale(p_sale_id bigint, p_reason text)`: Owner only (`42501` otherwise). Refuses an already voided sale. Writes compensating `void` movements, returns the stock and sets `status = 'voided'`, `voided_at`, `voided_by`, `void_reason`.
+- Tables `sales` and `sale_items` are read-only for the app; only these functions write them.
+- NFR-5 was checked by racing two sessions for the last unit 20 times: exactly one sale each time, stock never below 0.
 
 ## Still to do
 
-- Hide the Void button from Staff once logins and roles exist.
-- Migration with the `sales` and `sale_items` tables, both functions, RLS and pgTAP tests (including the NFR-5 concurrency test).
+- The NFR-5 concurrency check as an automated test (pgTAP runs in one session, so it can't race two).

@@ -5,6 +5,7 @@ import {
   CHANNELS, channelLabel, formatDateTime, formatPeso, isValid, lineTotal, saleTotal, unitPriceFor, validateSale,
 } from './saleUtils.js'
 import styles from './module2.module.css'
+import { useAuth } from '../../app/auth.js'
 
 async function loadAll() {
   const [sales, products, resellers, customers] = await Promise.all([
@@ -95,6 +96,9 @@ export default function SalesPage() {
 }
 
 function SalesTable({ sales, onVoided }) {
+  // Only the Owner can void (the void_sale function refuses anyone else).
+  const { role } = useAuth()
+  const canVoid = role === 'owner'
   const [voiding, setVoiding] = useState(null) // sale id
   const [reason, setReason] = useState('')
   const [error, setError] = useState('')
@@ -135,6 +139,7 @@ function SalesTable({ sales, onVoided }) {
             reason={reason}
             error={voiding === s.id ? error : ''}
             onReason={setReason}
+            canVoid={canVoid}
             onStartVoid={() => { setVoiding(s.id); setReason(''); setError('') }}
             onCancelVoid={() => setVoiding(null)}
             onConfirmVoid={() => confirmVoid(s)}
@@ -151,7 +156,7 @@ function SalesTable({ sales, onVoided }) {
   )
 }
 
-function SaleRow({ sale, voidOpen, reason, error, onReason, onStartVoid, onCancelVoid, onConfirmVoid }) {
+function SaleRow({ sale, canVoid, voidOpen, reason, error, onReason, onStartVoid, onCancelVoid, onConfirmVoid }) {
   const voided = sale.status === 'voided'
   return (
     <>
@@ -164,7 +169,7 @@ function SaleRow({ sale, voidOpen, reason, error, onReason, onStartVoid, onCance
         <td className={styles.num}>{formatPeso(sale.total)}</td>
         <td>{voided ? 'Voided' : 'Completed'}</td>
         <td>
-          {!voided && !voidOpen && (
+          {canVoid && !voided && !voidOpen && (
             <button type="button" className={styles.link} onClick={onStartVoid} aria-label={`Void ${sale.saleNo}`}>
               Void
             </button>

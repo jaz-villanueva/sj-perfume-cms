@@ -75,8 +75,10 @@ const supabaseApi = {
       : supabase.from('customers').insert({ ...row, consent_at: new Date().toISOString() })
     const { data, error } = await query.select(COLUMNS).single()
     if (error) {
-      // 23505 = unique violation on the normalised mobile number.
-      throw new Error(error.code === '23505' ? 'Another customer already has this mobile number.' : error.hint || error.message)
+      // 23505 = unique violation on the normalised mobile number; 23514 = a check failed.
+      if (error.code === '23505') throw new Error('Another customer already has this mobile number.')
+      if (error.code === '23514') throw new Error('Check the name and mobile number (11 digits, starting with 09).')
+      throw new Error(error.hint || error.message)
     }
     return fromRow(data)
   },

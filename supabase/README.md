@@ -24,6 +24,18 @@ The database is the backend. Business rules live here, not in the browser:
 4. If two open pull requests both add migrations, the one merged second must rename its file to a later timestamp before merging.
 5. Never commit real client data, database dumps, or keys.
 
+## Applying to the staging project (no CLI needed)
+
+1. Supabase dashboard → **SQL Editor** → **New query**. Paste the migration files from `migrations/` in order and **Run**. Then do the same with `seed.sql` if the project should have demo data.
+2. **Authentication → Users → Add user**: e-mail and password, tick **Auto Confirm User**. Every new user gets a `profiles` row with the role `staff`.
+3. Make the Owner's account an Owner, in the SQL Editor:
+
+   ```sql
+   update public.profiles set role = 'owner'
+    where id = (select id from auth.users where email = 'owner@example.com');
+   ```
+4. In `frontend/.env.local`, fill in `VITE_SUPABASE_URL` and `VITE_SUPABASE_PUBLISHABLE_KEY` and set `VITE_USE_SAMPLE_DATA=false`.
+
 ## Running locally
 
 The local stack needs Docker Desktop (free for education and personal use).
