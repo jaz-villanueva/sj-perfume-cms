@@ -23,9 +23,9 @@ The "API" is Supabase:
 
 | Function | Owner | Used by | Purpose |
 |---|---|---|---|
-| `record_stock_movement(payload)` | Member 1 | Member 1 UI, imports | Stock-in, return or adjustment with a reason; updates `product_stock` under a row lock |
+| `record_stock_movement(payload)` | Member 1 | Member 1 UI, imports | `payload = { product_id, kind: stock_in \| return \| adjustment, quantity, reason, reference }`; an adjustment may be negative and needs a reason; refuses to go below zero. Returns `{ movement_id, on_hand }`. A minimal version is in the base migration; Member 1 extends it |
 | `record_sale(payload)` | Member 2 | Sales UI | One atomic sale. `payload = { channel, customer_id, reseller_id, lines: [{ product_id, quantity }] }`; prices are looked up in the function (retail, or reseller price for channel `reseller`). Returns `{ sale_id, sale_no, total }`; refuses with `P0001` if stock is short. Full contract: `frontend/src/features/sales/README.md` |
-| `void_sale(sale_id, reason)` | Member 2 | Sales UI (Owner) | Owner only (`42501` otherwise); compensating movements; never deletes |
+| `void_sale(p_sale_id, p_reason)` | Member 2 | Sales UI (Owner) | Owner only (`42501` otherwise); compensating movements; never deletes |
 | `export_data_subject(kind, id)` / `anonymize_customer(id)` | Member 2 | Customers UI (Owner) | NFR-14 |
 | `import_batch(kind, rows)` | Member 3 | Imports UI | Validates every row, then commits the valid rows in one transaction |
 | `public_catalog` view (`GET /rest/v1/public_catalog`) | Member 1 | Public catalog page (no login) | Approved product fields + availability label; readable by `anon` with the publishable key only |

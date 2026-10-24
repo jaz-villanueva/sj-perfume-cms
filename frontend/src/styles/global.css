@@ -286,3 +286,107 @@ textarea {
 .placeholder-meta dd {
   margin: 0;
 }
+
+/* ---- sign-in (FR-1) and the signed-in user under the navigation ---- */
+
+.login-page {
+  display: grid;
+  place-items: center;
+  min-height: 100vh;
+  padding: 1rem;
+  background: var(--color-bg) url('../assets/marble.webp') center / cover;
+}
+
+.login-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+  width: min(100%, 22rem);
+  padding: 2rem 1.75rem;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+}
+
+.login-card h1 {
+  margin: 0;
+  text-align: center;
+}
+
+.login-logo {
+  align-self: center;
+}
+
+.login-card label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  font-size: 0.9rem;
+}
+
+.login-card input {
+  padding: 0.55rem 0.65rem;
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+}
+
+.login-card button,
+.app-signout {
+  padding: 0.55rem 1rem;
+  border: 1px solid var(--color-accent);
+  border-radius: 999px;
+  background: var(--color-accent);
+  color: #fff;
+  cursor: pointer;
+}
+
+.login-card button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.login-error {
+  margin: 0;
+  color: #b42318;
+  font-size: 0.9rem;
+}
+
+.login-help {
+  margin: 0;
+  color: var(--color-muted);
+  font-size: 0.8rem;
+  text-align: center;
+}
+
+.login-loading {
+  padding: 2rem;
+  text-align: center;
+  color: var(--color-muted);
+}
+
+.app-user {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin: 0 0.25rem 1.25rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--color-border);
+  font-size: 0.85rem;
+}
+
+.app-user p {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.app-user-role {
+  color: var(--color-muted);
+  font-size: 0.75rem;
+}
+
+.app-signout {
+  padding: 0.35rem 0.9rem;
+  font-size: 0.8rem;
+}

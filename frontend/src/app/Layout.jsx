@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Link, NavLink, Outlet } from 'react-router'
 import logo from '../assets/sj-logo.webp'
 import { Leaves } from '../components/Ornament.jsx'
+import { useAuth } from './auth.js'
 import { navItems } from './featureRoutes.js'
 import { groupNav } from './navSections.js'
 
@@ -9,6 +10,7 @@ const groups = groupNav(navItems)
 
 export default function Layout() {
   const [menuOpen, setMenuOpen] = useState(false)
+  const { isSample, fullName, role, signOut } = useAuth()
 
   return (
     <div className="app-shell">
@@ -32,6 +34,14 @@ export default function Layout() {
           </button>
         </div>
         <nav id="main-nav" aria-label="Main" className="app-nav" data-open={menuOpen}>
+          {!isSample && (
+            <div className="app-user">
+              <p>
+                {fullName} <span className="app-user-role">{role === 'owner' ? 'Owner' : 'Staff'}</span>
+              </p>
+              <button type="button" className="app-signout" onClick={signOut}>Sign out</button>
+            </div>
+          )}
           {groups.map((group) => (
             <div key={group.title} className="app-nav-section">
               <p className="app-nav-title">{group.title}</p>
