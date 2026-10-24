@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Link, NavLink, Outlet } from 'react-router'
-import { Swash, Vine } from '../components/Ornament.jsx'
+import { Flourish, Swash } from '../components/Ornament.jsx'
 import { navItems } from './featureRoutes.js'
 import { groupNav } from './navSections.js'
 
@@ -46,10 +46,10 @@ export default function Layout() {
           ))}
         </nav>
       </aside>
-      <Vine className="app-ornament app-ornament-left" />
-      <Vine className="app-ornament app-ornament-right" />
       <main className="app-main">
+        <Flourish className="app-flourish app-flourish-top" />
         <Outlet />
+        <Flourish className="app-flourish app-flourish-bottom" />
       </main>
     </div>
   )

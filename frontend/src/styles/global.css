@@ -178,26 +178,26 @@ textarea {
   color: var(--color-gold);
 }
 
-.app-ornament {
+/* Corner flourishes framing the page: drawn for the bottom-left corner, and turned round for
+   the top-right. They sit in the page margins, behind the content. */
+.app-flourish {
   display: none;
-  position: fixed;
-  top: 50%;
-  z-index: 0;
-  width: 3.25rem;
-  height: min(78vh, 40rem);
-  color: var(--color-gold);
-  opacity: 0.75;
+  position: absolute;
+  z-index: -1;
+  width: clamp(11rem, 14vw, 15rem);
+  aspect-ratio: 1;
   pointer-events: none;
-  transform: translateY(-50%);
 }
 
-.app-ornament-left {
-  left: calc(15rem + 0.9rem);
+.app-flourish-top {
+  top: 0;
+  right: 0;
+  transform: rotate(180deg);
 }
 
-.app-ornament-right {
-  right: 0.9rem;
-  transform: translateY(-50%) scaleX(-1);
+.app-flourish-bottom {
+  left: 0;
+  bottom: 0;
 }
 
 @media (min-width: 56rem) {
@@ -241,14 +241,14 @@ textarea {
   }
 }
 
-/* The side vines need a margin of their own, so they only appear on wide screens. */
+/* The flourishes need a margin of their own, so they only appear on wide screens. */
 @media (min-width: 80rem) {
-  .app-ornament {
+  .app-flourish {
     display: block;
   }
 
   .app-main {
-    padding-inline: 5.5rem;
+    padding: 3rem 5.5rem 5rem;
   }
 }
 
