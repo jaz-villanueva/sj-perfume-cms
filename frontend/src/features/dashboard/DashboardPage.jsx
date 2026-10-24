@@ -1,7 +1,9 @@
 import { useEffect, useMemo, useState } from 'react'
 import { salesApi } from '../sales/salesApi.js'
 import { formatPeso } from '../sales/saleUtils.js'
-import { PERIODS, salesInPeriod, summarize } from './dashboardUtils.js'
+import ChannelBreakdown from './ChannelBreakdown.jsx'
+import DailySalesChart from './DailySalesChart.jsx'
+import { PERIODS, byChannel, dailyRevenue, salesInPeriod, summarize } from './dashboardUtils.js'
 import styles from './dashboard.module.css'
 
 const count = new Intl.NumberFormat('en-PH')
@@ -29,6 +31,9 @@ export default function DashboardPage() {
 
   const inPeriod = useMemo(() => salesInPeriod(sales, period), [sales, period])
   const summary = useMemo(() => summarize(inPeriod), [inPeriod])
+  const channels = useMemo(() => byChannel(inPeriod), [inPeriod])
+  // "All time" charts the last 90 days, so the columns stay readable.
+  const days = useMemo(() => dailyRevenue(sales, period || 90), [sales, period])
 
   return (
     <section>
@@ -68,6 +73,13 @@ export default function DashboardPage() {
             <p className={styles.tileLabel}>Average sale</p>
             <p className={styles.tileValue}>{formatPeso(summary.averageSale)}</p>
           </div>
+        </div>
+      )}
+
+      {!loading && !loadError && (
+        <div className={styles.panels}>
+          <DailySalesChart days={days} />
+          <ChannelBreakdown rows={channels} />
         </div>
       )}
     </section>
