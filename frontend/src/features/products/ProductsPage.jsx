@@ -1,53 +1,8 @@
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import { productsApi } from './productsApi.js'
 import './products.css'
 
-const sampleProducts = [
-  {
-    id: 1,
-    sku: 'SAMPLE-001',
-    name: 'Midnight Bloom',
-    brand: 'Sample Brand A',
-    scentFamily: 'Floral',
-    sizeMl: 50,
-    sellingPrice: 850,
-    stockQuantity: 12,
-    reorderLevel: 5,
-  },
-  {
-    id: 2,
-    sku: 'SAMPLE-002',
-    name: 'Citrus Breeze',
-    brand: 'Sample Brand B',
-    scentFamily: 'Citrus',
-    sizeMl: 30,
-    sellingPrice: 550,
-    stockQuantity: 3,
-    reorderLevel: 5,
-  },
-  {
-    id: 3,
-    sku: 'SAMPLE-003',
-    name: 'Velvet Woods',
-    brand: 'Sample Brand C',
-    scentFamily: 'Woody',
-    sizeMl: 100,
-    sellingPrice: 1200,
-    stockQuantity: 0,
-    reorderLevel: 5,
-  },
-  {
-    id: 4,
-    sku: 'SAMPLE-004',
-    name: 'Ocean Mist',
-    brand: 'Sample Brand A',
-    scentFamily: 'Aquatic',
-    sizeMl: 50,
-    sellingPrice: 750,
-    stockQuantity: 8,
-    reorderLevel: 5,
-  },
-]
 
 function getStockStatus(product) {
   if (product.stockQuantity === 0) {
@@ -68,17 +23,31 @@ const emptyProductForm = {
   scentFamily: '',
   sizeMl: '',
   sellingPrice: '',
+  resellerPrice: '',
   stockQuantity: '',
   reorderLevel: '5',
 }
 
 export default function ProductsPage() {
-  const [products, setProducts] = useState(sampleProducts)
+  const [products, setProducts] = useState([])
   const [search, setSearch] = useState('')
   const [isFormOpen, setIsFormOpen] = useState(false)
   const [formData, setFormData] = useState(emptyProductForm)
   const [formError, setFormError] = useState('')
   const [editingProductId, setEditingProductId] = useState(null)
+
+  useEffect(() => {
+  async function loadProducts() {
+    try {
+      const data = await productsApi.listProducts()
+      setProducts(data)
+    } catch (error) {
+      setFormError(error.message)
+    }
+  }
+
+  loadProducts()
+}, [])
 
   function handleFormChange(event) {
     const { name, value } = event.target
@@ -97,6 +66,7 @@ export default function ProductsPage() {
       scentFamily: product.scentFamily,
       sizeMl: String(product.sizeMl),
       sellingPrice: String(product.sellingPrice),
+      resellerPrice: String(product.resellerPrice ?? ''),
       stockQuantity: String(product.stockQuantity),
       reorderLevel: String(product.reorderLevel),
     })
@@ -105,7 +75,7 @@ export default function ProductsPage() {
     setIsFormOpen(true)
   }
   
-  function handleDeleteProduct(product) {
+  async function handleDeleteProduct(product) {
     const confirmed = window.confirm(
       `Are you sure you want to delete "${product.name}"?`
     )
@@ -114,108 +84,109 @@ export default function ProductsPage() {
       return
     }
 
-    setProducts((previousProducts) =>
-      previousProducts.filter(
-        (existingProduct) => existingProduct.id !== product.id
-      )
-    )
+    try {
+      await productsApi.deactivateProduct(product.id)
 
-    if (editingProductId === product.id) {
-      setFormData(emptyProductForm)
-      setEditingProductId(null)
-      setFormError('')
-      setIsFormOpen(false)
-    }
-  }
+      const updatedProducts = await productsApi.listProducts()
+      setProducts(updatedProducts)
 
-  function handleCreateProduct(event) {
-    event.preventDefault()
-    setFormError('')
-
-    const sku = formData.sku.trim().toUpperCase()
-
-    if (
-      !sku ||
-      !formData.name.trim() ||
-      !formData.brand.trim() ||
-      !formData.scentFamily.trim() ||
-      !formData.sizeMl ||
-      !formData.sellingPrice ||
-      formData.stockQuantity === '' ||
-      formData.reorderLevel === ''
-    ) {
-      setFormError('Please complete all required fields.')
-      return
-    }
-    if (
-      products.some(
-        (product) =>
-          product.id !== editingProductId &&
-          product.sku.toUpperCase() === sku
-      )
-    ) {
-      setFormError('This SKU already exists. Please use a unique SKU.')
-      return
-    }
-    const sizeMl = Number(formData.sizeMl)
-    const sellingPrice = Number(formData.sellingPrice)
-    const stockQuantity = Number(formData.stockQuantity)
-    const reorderLevel = Number(formData.reorderLevel)
-
-    if (
-      !Number.isFinite(sizeMl) ||
-      sizeMl <= 0 ||
-      !Number.isFinite(sellingPrice) ||
-      sellingPrice < 0 ||
-      !Number.isInteger(stockQuantity) ||
-      stockQuantity < 0 ||
-      !Number.isInteger(reorderLevel) ||
-      reorderLevel < 0 
-    ) {
-      setFormError('Enter a positive size, a non-negative price, and non-negative whole-number stock values.')
-      return
-    }
-
-      const productData = {
-        sku,
-        name: formData.name.trim(),
-        brand: formData.brand.trim(),
-        scentFamily: formData.scentFamily.trim(),
-        sizeMl,
-        sellingPrice,
-        stockQuantity,
-        reorderLevel,
+      if (editingProductId === product.id) {
+        setFormData(emptyProductForm)
+        setEditingProductId(null)
+        setFormError('')
+        setIsFormOpen(false)
       }
-
-      if (editingProductId !== null) {
-        // Update the existing product.
-        setProducts((previousProducts) =>
-          previousProducts.map((product) =>
-            product.id === editingProductId
-              ? { ...product, ...productData }
-              : product
-          )
-        )
-      } else {
-        // Create a new product.
-        const newProduct = {
-          id: Math.max(0, ...products.map((product) => product.id)) + 1,
-          ...productData,
-        }
-
-        setProducts((previousProducts) => [
-          ...previousProducts,
-          newProduct,
-        ])
-      
-    }   
-
-      setFormData(emptyProductForm)
-      setEditingProductId(null)
-      setIsFormOpen(false)
-      setSearch('')
-
+    } catch (error) {
+      setFormError(error.message)
+    }
   }
+async function handleCreateProduct(event) {
+  event.preventDefault()
+  setFormError('')
+
+  const sku = formData.sku.trim().toUpperCase()
+
+  if (
+    !sku ||
+    !formData.name.trim() ||
+    !formData.brand.trim() ||
+    !formData.scentFamily.trim() ||
+    !formData.sizeMl ||
+    !formData.sellingPrice ||
+    formData.resellerPrice === '' || // NEW
+    formData.stockQuantity === '' ||
+    formData.reorderLevel === ''
+  ) {
+    setFormError('Please complete all required fields.')
+    return
+  }
+
+  if (
+    products.some(
+      (product) =>
+        product.id !== editingProductId &&
+        product.sku.toUpperCase() === sku
+    )
+  ) {
+    setFormError('This SKU already exists. Please use a unique SKU.')
+    return
+  }
+
+  const sizeMl = Number(formData.sizeMl)
+  const sellingPrice = Number(formData.sellingPrice)
+  const resellerPrice = Number(formData.resellerPrice) // NEW
+  const stockQuantity = Number(formData.stockQuantity)
+  const reorderLevel = Number(formData.reorderLevel)
+
+  if (
+    !Number.isFinite(sizeMl) ||
+    sizeMl <= 0 ||
+    !Number.isFinite(sellingPrice) ||
+    sellingPrice < 0 ||
+    !Number.isFinite(resellerPrice) || // NEW
+    resellerPrice < 0 || // NEW
+    !Number.isInteger(stockQuantity) ||
+    stockQuantity < 0 ||
+    !Number.isInteger(reorderLevel) ||
+    reorderLevel < 0
+  ) {
+    setFormError(
+      'Enter a positive size, non-negative selling and reseller prices, and non-negative whole-number stock values.'
+    )
+    return
+  }
+
+  const productData = {
+    sku,
+    name: formData.name.trim(),
+    brand: formData.brand.trim(),
+    scentFamily: formData.scentFamily.trim(),
+    sizeMl,
+    sellingPrice,
+    resellerPrice, // NEW
+    stockQuantity,
+    reorderLevel,
+  }
+
+  try {
+    await productsApi.saveProduct({
+      ...productData,
+      id: editingProductId,
+    })
+
+    const updatedProducts = await productsApi.listProducts()
+    setProducts(updatedProducts)
+  } catch (error) {
+    setFormError(error.message)
+    return
+  }
+
+  setFormData(emptyProductForm)
+  setEditingProductId(null)
+  setIsFormOpen(false)
+  setSearch('')
+}
+
 
   const filteredProducts = products.filter((product) => {
     const searchableText = [
@@ -331,6 +302,19 @@ export default function ProductsPage() {
             </label>
 
             <label>
+              Reseller Price (₱)
+              <input
+                type="number"
+                name="resellerPrice"
+                value={formData.resellerPrice}
+                onChange={handleFormChange}
+                min="0"
+                step="0.01"
+                required
+              />
+            </label>
+
+            <label>
               Initial stock quantity
               <input
                 name="stockQuantity"
@@ -339,8 +323,15 @@ export default function ProductsPage() {
                 step="1"
                 value={formData.stockQuantity}
                 onChange={handleFormChange}
+                disabled={editingProductId !== null}
                 required
               />
+
+              {editingProductId !== null && (
+                <small>
+                  Stock quantities must be updated through Inventory Management.
+                </small>
+              )}
             </label>
 
             <label>
