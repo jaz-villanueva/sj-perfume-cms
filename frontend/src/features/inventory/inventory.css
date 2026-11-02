@@ -1,0 +1,259 @@
+/* ---- Inventory page ---- */
+
+.inventory-page {
+  width: 100%;
+  min-width: 0;
+}
+
+.inventory-page h1 {
+  margin-bottom: 0.5rem;
+}
+
+.inventory-page > p {
+  color: var(--color-muted);
+}
+
+/* ---- Inventory table ---- */
+
+.inventory-table-wrapper {
+  width: 100%;
+  margin-top: 1.5rem;
+  overflow-x: auto;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+}
+
+.inventory-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  font-size: 0.875rem;
+}
+
+.inventory-table thead {
+  background: var(--color-accent-soft);
+}
+
+.inventory-table th {
+  padding: 1rem;
+  color: var(--color-muted);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.inventory-table td {
+  padding: 1rem;
+  border-top: 1px solid var(--color-border);
+  vertical-align: middle;
+}
+
+.inventory-table tbody tr:hover {
+  background: var(--color-bg);
+}
+
+.inventory-table td:nth-child(4),
+.inventory-table td:nth-child(5) {
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---- Stock status indicators ---- */
+
+.inventory-status {
+  display: inline-block;
+  padding: 0.3rem 0.7rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.inventory-status--normal {
+  background: #eaf4ed;
+  color: #24613a;
+}
+
+.inventory-status--low {
+  background: #fff1da;
+  color: #865500;
+}
+
+.inventory-status--out {
+  background: #fce8e6;
+  color: #a12622;
+}
+
+/* ---- Empty table ---- */
+
+.inventory-empty {
+  padding: 2rem;
+  color: var(--color-muted);
+  text-align: center;
+}
+
+
+/* ---- Inventory search ---- */
+
+.inventory-toolbar {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  margin-top: 1.5rem;
+}
+
+.inventory-toolbar label {
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+.inventory-toolbar input {
+  width: 100%;
+  max-width: 28rem;
+  padding: 0.7rem 0.85rem;
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  background: var(--color-surface);
+  color: var(--color-text);
+}
+
+.inventory-toolbar input:focus {
+  outline: 2px solid var(--color-taupe);
+  outline-offset: 2px;
+}
+
+.inventory-count {
+  margin: 1rem 0 0;
+  color: var(--color-muted);
+  font-size: 0.85rem;
+}
+
+
+/* ---- Inventory stock filter ---- */
+
+.inventory-filter {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  margin-top: 1rem;
+}
+
+.inventory-filter label {
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+.inventory-filter select {
+  width: 100%;
+  max-width: 28rem;
+  padding: 0.7rem 0.85rem;
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  background: var(--color-surface);
+  color: var(--color-text);
+  cursor: pointer;
+}
+
+.inventory-filter select:focus {
+  outline: 2px solid var(--color-taupe);
+  outline-offset: 2px;
+}
+
+
+/* ---- Inventory movement form ---- */
+
+.inventory-actions {
+  margin: 1.5rem 0;
+}
+
+.inventory-primary-button,
+.inventory-secondary-button {
+  padding: 0.65rem 1.2rem;
+  border-radius: 999px;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.inventory-primary-button {
+  border: 1px solid var(--color-accent);
+  background: var(--color-accent);
+  color: #fff;
+}
+
+.inventory-secondary-button {
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
+  color: var(--color-text);
+}
+
+.inventory-primary-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.inventory-movement-form {
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  background: var(--color-surface);
+}
+
+.inventory-movement-form h2 {
+  margin-top: 0;
+}
+
+.inventory-movement-form > p {
+  color: var(--color-muted);
+}
+
+.inventory-form-grid {
+  display: grid;
+  grid-template-columns: repeat(
+    auto-fit,
+    minmax(min(100%, 15rem), 1fr)
+  );
+  gap: 1rem;
+}
+
+.inventory-form-grid label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+.inventory-form-grid input,
+.inventory-form-grid select {
+  width: 100%;
+  padding: 0.65rem;
+  border: 1px solid var(--color-border);
+  border-radius: 5px;
+  background: var(--color-surface);
+  color: var(--color-text);
+}
+
+.inventory-form-grid small {
+  color: var(--color-muted);
+  font-size: 0.75rem;
+  font-weight: 400;
+}
+
+.inventory-form-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 1.5rem;
+}
+
+.inventory-form-error {
+  color: #b42318;
+}
+
+.inventory-form-success {
+  color: #24613a;
+}
