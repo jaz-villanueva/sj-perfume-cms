@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Link, NavLink, Outlet } from 'react-router'
+import { Link, NavLink, Outlet, useNavigate } from 'react-router'
 import logo from '../assets/sj-logo.webp'
 import { Leaves } from '../components/Ornament.jsx'
 import { useAuth } from './auth.js'
@@ -11,6 +11,18 @@ const groups = groupNav(navItems)
 export default function Layout() {
   const [menuOpen, setMenuOpen] = useState(false)
   const { isSample, fullName, role, signOut } = useAuth()
+
+  const navigate = useNavigate()
+
+  const handleSignOut = async () => {
+    try {
+      await signOut()
+      navigate('/', { replace: true })
+    } catch (error) {
+      console.error('Sign-out failed:', error)
+    window.alert('Unable to sign out. Please try again.')
+    }
+  }
 
   return (
     <div className="app-shell">
@@ -39,7 +51,9 @@ export default function Layout() {
               <p>
                 {fullName} <span className="app-user-role">{role === 'owner' ? 'Owner' : 'Staff'}</span>
               </p>
-              <button type="button" className="app-signout" onClick={signOut}>Sign out</button>
+              <button type="button" className="app-signout" onClick={handleSignOut}>
+                Sign out
+              </button>
             </div>
           )}
           {groups.map((group) => (

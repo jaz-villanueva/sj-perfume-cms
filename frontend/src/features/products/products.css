@@ -248,3 +248,30 @@
 .deleteLink:hover {
   color: #8f1d14;
 }
+
+.product-image-field {
+  margin: 20px 0;
+}
+
+.product-image-field label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.product-image-field input {
+  display: block;
+  width: 100%;
+  margin-bottom: 8px;
+}
+
+.product-image-field small {
+  display: block;
+  color: #777;
+  line-height: 1.5;
+}
+
+.product-upload-success {
+  color: #256c3a;
+  font-weight: 600;
+}

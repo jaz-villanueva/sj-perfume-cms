@@ -1,0 +1,303 @@
+
+.catalog-page {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 28px 20px 48px;
+}
+
+.catalog-header {
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+.catalog-eyebrow {
+  color: #9a6b43;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  font-size: 12px;
+}
+
+.catalog-header h1 {
+  font-size: clamp(28px, 4vw, 42px);
+  margin: 10px 0;
+}
+
+.catalog-header > p:last-child {
+  max-width: 620px;
+  margin: 0 auto;
+  line-height: 1.6;
+  color: #777;
+}
+
+.catalog-toolbar {
+  margin-bottom: 20px;
+}
+
+.catalog-toolbar label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.catalog-toolbar input {
+  width: 100%;
+  max-width: 480px;
+  padding: 12px 14px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font: inherit;
+}
+
+.catalog-count {
+  margin-bottom: 20px;
+  color: #777;
+}
+
+.catalog-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 24px;
+}
+
+.catalog-card {
+  background: #fff;
+  border: 1px solid #eee;
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.05);
+}
+
+.catalog-image-placeholder {
+  min-height: 200px;
+  background: linear-gradient(135deg, #f8eee5, #e9d6c5);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: #8c6044;
+}
+
+.catalog-image-placeholder span {
+  font-size: 54px;
+}
+
+.catalog-image-placeholder p {
+  font-size: 12px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.catalog-card-content {
+  padding: 20px;
+}
+
+.catalog-brand {
+  color: #9a6b43;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.catalog-card h2 {
+  font-size: 19px;
+  margin: 8px 0;
+}
+
+.catalog-details {
+  color: #777;
+  font-size: 13px;
+}
+
+.catalog-description {
+  line-height: 1.6;
+  font-size: 14px;
+  min-height: 48px;
+  margin-top: 12px;
+}
+
+.catalog-card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 20px;
+}
+
+.catalog-card-footer strong {
+  font-size: 18px;
+}
+
+.catalog-availability {
+  padding: 6px 10px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.catalog-availability--in-stock {
+  background: #e3f3e7;
+  color: #256c3a;
+}
+
+.catalog-availability--low-stock {
+  background: #fff1d6;
+  color: #946200;
+}
+
+.catalog-availability--out-of-stock {
+  background: #fbe4e4;
+  color: #a12e2e;
+}
+
+.catalog-error {
+  color: #a12e2e;
+}
+
+.catalog-empty {
+  text-align: center;
+  padding: 40px;
+  color: #777;
+}
+
+@media (max-width: 600px) {
+  .catalog-page {
+    padding: 20px 12px 36px;
+  }
+
+  .catalog-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.catalog-image-container {
+  width: 100%;
+  height: 220px;
+  background: #f8f2ed;
+  overflow: hidden;
+}
+
+.catalog-image-container img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  padding: 12px;
+}
+
+
+/* Checkpoint 13.4 — Catalog search and filtering */
+
+.catalog-toolbar {
+  display: grid;
+  grid-template-columns: minmax(220px, 2fr) repeat(2, minmax(150px, 1fr)) auto;
+  align-items: end;
+  gap: 14px;
+}
+
+.catalog-filter-field {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  min-width: 0;
+}
+
+.catalog-filter-field label {
+  font-weight: 500;
+}
+
+.catalog-filter-field input,
+.catalog-filter-field select {
+  width: 100%;
+  min-width: 0;
+  padding: 11px 12px;
+  border: 1px solid #d7d2ce;
+  border-radius: 8px;
+  background: #fff;
+  color: #302a28;
+  font: inherit;
+  box-sizing: border-box;
+}
+
+.catalog-filter-field input:focus-visible,
+.catalog-filter-field select:focus-visible,
+.catalog-clear-filters:focus-visible {
+  outline: 2px solid #755c4b;
+  outline-offset: 2px;
+}
+
+.catalog-clear-filters {
+  padding: 11px 16px;
+  border: 1px solid #b8a99e;
+  border-radius: 8px;
+  background: #fff;
+  color: #44362e;
+  font: inherit;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.catalog-clear-filters:hover:not(:disabled) {
+  background: #f5efea;
+}
+
+.catalog-clear-filters:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.catalog-empty .catalog-clear-filters {
+  margin-top: 12px;
+}
+
+@media (max-width: 900px) {
+  .catalog-toolbar {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 560px) {
+  .catalog-toolbar {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .catalog-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+
+/* Checkpoint 13.6J — Public Catalog navigation */
+
+.catalog-public-nav {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 16px;
+}
+
+.catalog-login-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 18px;
+  border: 1px solid #846a58;
+  border-radius: 8px;
+  background: #ffffff;
+  color: #614936;
+  font: inherit;
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.catalog-login-link:hover {
+  background: #f5eee8;
+}
+
+.catalog-login-link:focus-visible {
+  outline: 2px solid #846a58;
+  outline-offset: 3px;
+}
