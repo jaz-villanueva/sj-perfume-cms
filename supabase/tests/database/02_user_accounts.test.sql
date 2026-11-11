@@ -2,7 +2,7 @@
 begin;
 create extension if not exists pgtap with schema extensions;
 
-select plan(23);
+select plan(24);
 
 -- ------------------------------------------------------------------ setup (as postgres)
 insert into auth.users (id, email, raw_user_meta_data) values
@@ -11,10 +11,17 @@ insert into auth.users (id, email, raw_user_meta_data) values
 update public.profiles set role = 'owner' where id = '00000000-0000-0000-0000-0000000000a1';
 insert into public.products (sku, name, retail_price, reseller_price) values ('ACC-001', 'Account Test Perfume', 100, 80);
 
--- What the admin-users function does when the Owner adds an account.
+-- What Supabase Auth does when the admin-users function adds an account for the Owner: insert
+-- the user, then save app_metadata (with created_by) in a later step of the same transaction.
 insert into auth.users (id, email, raw_user_meta_data, raw_app_meta_data) values
   ('00000000-0000-0000-0000-0000000000c3', 'new.staff@example.com', '{"full_name": "New Staff"}',
-   '{"created_by": "00000000-0000-0000-0000-0000000000a1"}');
+   '{"provider": "email", "providers": ["email"]}');
+update auth.users
+   set raw_app_meta_data = raw_app_meta_data || '{"created_by": "00000000-0000-0000-0000-0000000000a1"}'
+ where id = '00000000-0000-0000-0000-0000000000c3';
+
+-- New-account entries are written at commit; this makes that happen now, inside the test.
+set constraints all immediate;
 
 select is((select email from public.profiles where id = '00000000-0000-0000-0000-0000000000b2'),
   'staff.test@example.com', 'a new account copies its e-mail into the profile');
@@ -24,6 +31,10 @@ select is(
   (select actor_id from public.audit_log where table_name = 'profiles' and action = 'insert'
       and record_id = '00000000-0000-0000-0000-0000000000c3'),
   '00000000-0000-0000-0000-0000000000a1'::uuid, 'the audit trail names the Owner who created the account');
+select is(
+  (select count(*)::int from public.audit_log where table_name = 'profiles' and action = 'insert' and actor_id is null
+      and record_id in ('00000000-0000-0000-0000-0000000000a1', '00000000-0000-0000-0000-0000000000b2')),
+  2, 'accounts added in the Supabase dashboard are logged with no user');
 
 -- ------------------------------------------------------------------ not signed in
 set local role anon;
