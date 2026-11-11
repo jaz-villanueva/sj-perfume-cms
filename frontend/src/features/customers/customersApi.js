@@ -2,6 +2,7 @@
 // otherwise it falls back to sample data in memory, so the screens work before the
 // database tables exist (and in tests).
 import { supabase } from '../../lib/supabase.js'
+import { salesApi } from '../sales/salesApi.js'
 import { normalizeMobile } from './customerUtils.js'
 
 const SAMPLE = [
@@ -41,7 +42,7 @@ const toRow = (c) => ({
 const sampleApi = {
   isSample: true,
   async listCustomers() {
-    return sample.map((c) => ({ ...c })).sort((a, b) => a.name.localeCompare(b.name))
+    return sample.filter((c) => !c.anonymizedAt).map((c) => ({ ...c })).sort((a, b) => a.name.localeCompare(b.name))
   },
   async saveCustomer(draft) {
     const row = { ...toRow(draft), email: draft.email?.trim() ?? '', address: draft.address?.trim() ?? '' }
@@ -57,7 +58,34 @@ const sampleApi = {
     sample.push(created)
     return { ...created }
   },
+  // NFR-5: everything kept about one customer, in the same shape as export_data_subject.
+  async exportCustomer(id) {
+    const c = sample.find((x) => x.id === id)
+    if (!c) throw new Error('Customer not found.')
+    const sales = await salesApi.listSalesForCustomer(id)
+    return {
+      exported_at: new Date().toISOString(),
+      kind: 'customer',
+      record: { id: c.id, name: c.name, mobile: c.mobile, email: c.email || null, address: c.address || null, preferred_channel: c.preferredChannel, consent_at: c.consentAt, anonymized_at: c.anonymizedAt ?? null },
+      sales: sales.reverse().map((s) => ({
+        sale_no: s.saleNo, sold_at: s.soldAt, channel: s.channel, status: s.status, total: s.total, void_reason: s.voidReason ?? null,
+        items: s.items.map((i) => ({ sku: i.sku, name: i.name, quantity: i.quantity, unit_price: i.unitPrice, line_total: i.lineTotal })),
+      })),
+      note: EXPORT_NOTE,
+    }
+  },
+  // NFR-5: erases the personal details and keeps the sales. Cannot be undone.
+  async anonymizeCustomer(id) {
+    const c = sample.find((x) => x.id === id)
+    if (!c) throw new Error('Customer not found.')
+    if (c.anonymizedAt) throw new Error('This customer was already anonymised.')
+    Object.assign(c, { name: `Anonymised customer #${id}`, mobile: null, email: '', address: '', anonymizedAt: new Date().toISOString() })
+    const sales = await salesApi.listSalesForCustomer(id)
+    return { customerId: id, salesKept: sales.length }
+  },
 }
+
+const EXPORT_NOTE = 'Personal data held by SJ Perfume Trading for this person (Data Privacy Act of 2012, RA 10173).'
 
 const COLUMNS = 'id, name, mobile, email, address, preferred_channel, consent_at'
 
@@ -81,6 +109,16 @@ const supabaseApi = {
       throw new Error(error.hint || error.message)
     }
     return fromRow(data)
+  },
+  async exportCustomer(id) {
+    const { data, error } = await supabase.rpc('export_data_subject', { p_kind: 'customer', p_id: id })
+    if (error) throw new Error(error.hint || error.message)
+    return data
+  },
+  async anonymizeCustomer(id) {
+    const { data, error } = await supabase.rpc('anonymize_customer', { p_id: id })
+    if (error) throw new Error(error.hint || error.message)
+    return { customerId: data.customer_id, salesKept: data.sales_kept }
   },
 }
 

@@ -50,6 +50,10 @@ const sampleApi = {
   async listSales() {
     return copy(sales).sort(newest)
   },
+  // FR-7: the sales linked to one customer, newest first.
+  async listSalesForCustomer(customerId) {
+    return copy(sales.filter((s) => s.customerId === customerId)).sort(newest)
+  },
   // Same rules as the record_sale function: everything is checked first, so a refused
   // sale saves nothing.
   async recordSale(draft, customers = []) {
@@ -101,6 +105,20 @@ const fail = (error) => {
   throw new Error(error.hint || error.message)
 }
 
+const SALE_COLUMNS =
+  'id, sale_no, sold_at, channel, customer_id, reseller_id, total, status, void_reason, customers(name), resellers(business_name), sale_items(product_id, quantity, unit_price, line_total, products(sku, name))'
+
+const fromSaleRow = (s) => ({
+  id: s.id, saleNo: s.sale_no, soldAt: s.sold_at, channel: s.channel, status: s.status, voidReason: s.void_reason,
+  customerId: s.customer_id, customerName: s.customers?.name ?? null,
+  resellerId: s.reseller_id, resellerName: s.resellers?.business_name ?? null,
+  total: Number(s.total),
+  items: s.sale_items.map((i) => ({
+    productId: i.product_id, sku: i.products?.sku, name: i.products?.name, quantity: i.quantity,
+    unitPrice: Number(i.unit_price), lineTotal: Number(i.line_total),
+  })),
+})
+
 const supabaseApi = {
   isSample: false,
   async listProducts() {
@@ -124,20 +142,21 @@ const supabaseApi = {
   async listSales() {
     const { data, error } = await supabase
       .from('sales')
-      .select('id, sale_no, sold_at, channel, customer_id, reseller_id, total, status, void_reason, customers(name), resellers(business_name), sale_items(product_id, quantity, unit_price, line_total, products(sku, name))')
+      .select(SALE_COLUMNS)
       .order('sold_at', { ascending: false })
       .limit(200)
     if (error) fail(error)
-    return data.map((s) => ({
-      id: s.id, saleNo: s.sale_no, soldAt: s.sold_at, channel: s.channel, status: s.status, voidReason: s.void_reason,
-      customerId: s.customer_id, customerName: s.customers?.name ?? null,
-      resellerId: s.reseller_id, resellerName: s.resellers?.business_name ?? null,
-      total: Number(s.total),
-      items: s.sale_items.map((i) => ({
-        productId: i.product_id, sku: i.products?.sku, name: i.products?.name, quantity: i.quantity,
-        unitPrice: Number(i.unit_price), lineTotal: Number(i.line_total),
-      })),
-    }))
+    return data.map(fromSaleRow)
+  },
+  async listSalesForCustomer(customerId) {
+    const { data, error } = await supabase
+      .from('sales')
+      .select(SALE_COLUMNS)
+      .eq('customer_id', customerId)
+      .order('sold_at', { ascending: false })
+      .limit(500)
+    if (error) fail(error)
+    return data.map(fromSaleRow)
   },
   async recordSale(draft) {
     const { data, error } = await supabase.rpc('record_sale', { payload: toRecordSalePayload(draft) })
