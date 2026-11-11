@@ -20,6 +20,11 @@ select (select id from public.products where sku = 'PRV-001') as p,
        (select id from public.resellers where business_name = 'Privacy Scents') as r;
 grant select on ids to anon, authenticated;
 
+-- Filled in later while signed in as the Owner (temporary tables are created here, as postgres,
+-- the same way as in 01_sales).
+create temp table owner_results (export_doc jsonb, revenue_before text);
+grant select, insert on owner_results to authenticated;
+
 -- ------------------------------------------------------------------ staff
 set local role authenticated;
 set local request.jwt.claims to '{"sub": "00000000-0000-0000-0000-0000000000b2"}';
@@ -45,21 +50,22 @@ reset role;
 set local role authenticated;
 set local request.jwt.claims to '{"sub": "00000000-0000-0000-0000-0000000000a1"}';
 
-create temp table export_customer as select public.export_data_subject('customer', (select c from ids)) as doc;
-select is((select doc -> 'record' ->> 'mobile' from export_customer), '09991112222', 'the export has the customer''s details');
-select is((select jsonb_array_length(doc -> 'sales') from export_customer), 2, 'the export lists the customer''s sales');
+insert into owner_results (export_doc, revenue_before)
+select public.export_data_subject('customer', (select c from ids)),
+       public.dashboard_summary(0, 90) -> 'summary' ->> 'revenue';
+select is((select export_doc -> 'record' ->> 'mobile' from owner_results), '09991112222', 'the export has the customer''s details');
+select is((select jsonb_array_length(export_doc -> 'sales') from owner_results), 2, 'the export lists the customer''s sales');
 select is(
   (select jsonb_array_length(public.export_data_subject('reseller', (select r from ids)) -> 'sales')), 1,
   'a reseller''s data can be exported too');
 select throws_ok($$select public.export_data_subject('supplier', 1)$$, 'P0001', 'invalid kind', 'an unknown kind is refused');
 
-create temp table totals_before as select (public.dashboard_summary(0, 90) -> 'summary' ->> 'revenue') as revenue;
 select is((public.anonymize_customer((select c from ids)) ->> 'sales_kept')::int, 2, 'the owner can anonymise a customer');
 select is(
   (select concat_ws('|', name, mobile, email, address) from public.customers where id = (select c from ids)),
   'Anonymised customer #' || (select c from ids), 'name, mobile, e-mail and address are erased');
 select is((select count(*)::int from public.sales where customer_id = (select c from ids)), 2, 'the customer''s sales are kept');
-select is((public.dashboard_summary(0, 90) -> 'summary' ->> 'revenue'), (select revenue from totals_before),
+select is((public.dashboard_summary(0, 90) -> 'summary' ->> 'revenue'), (select revenue_before from owner_results),
   'sales totals are unchanged');
 select throws_ok(format('select public.anonymize_customer(%s)', (select c from ids)), 'P0001', 'already anonymised',
   'a customer cannot be anonymised twice');
