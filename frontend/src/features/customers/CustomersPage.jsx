@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from 'react'
+import CustomerDetails from './CustomerDetails.jsx'
 import { customersApi } from './customersApi.js'
 import { PREFERRED_CHANNELS, formatMobile, matchesSearch, validateCustomer } from './customerUtils.js'
 import styles from '../sales/module2.module.css'
@@ -13,6 +14,7 @@ export default function CustomersPage() {
   const [loadError, setLoadError] = useState('')
   const [query, setQuery] = useState('')
   const [editing, setEditing] = useState(null) // null = form closed
+  const [viewing, setViewing] = useState(null) // the customer whose record and sales are open
   const [notice, setNotice] = useState('')
 
   useEffect(() => {
@@ -35,6 +37,15 @@ export default function CustomersPage() {
     })
     setNotice(`Saved ${saved.name}.`)
     setEditing(null)
+    setViewing((v) => (v?.id === saved.id ? saved : v))
+  }
+
+  function handleAnonymized(customer, result) {
+    setCustomers((list) => list.filter((c) => c.id !== customer.id))
+    setViewing(null)
+    setNotice(
+      `${customer.name} was anonymised. Their ${result.salesKept} ${result.salesKept === 1 ? 'sale is' : 'sales are'} kept under “Anonymised customer #${customer.id}”.`,
+    )
   }
 
   return (
@@ -55,6 +66,10 @@ export default function CustomersPage() {
           Add customer
         </button>
       </div>
+
+      {viewing && !editing && (
+        <CustomerDetails key={viewing.id} customer={viewing} onClose={() => setViewing(null)} onAnonymized={handleAnonymized} />
+      )}
 
       {editing && (
         <CustomerForm
@@ -86,9 +101,14 @@ export default function CustomersPage() {
               <td>{channelLabel(c.preferredChannel)}</td>
               <td>{formatDate(c.consentAt)}</td>
               <td>
-                <button type="button" className={styles.link} onClick={() => { setNotice(''); setEditing({ ...c, mobile: formatMobile(c.mobile), consent: true }) }}>
+                <div className={styles.rowActions}>
+                <button type="button" className={styles.link} aria-label={`View ${c.name}`} onClick={() => { setNotice(''); setEditing(null); setViewing(c) }}>
+                  View
+                </button>
+                <button type="button" className={styles.link} aria-label={`Edit ${c.name}`} onClick={() => { setNotice(''); setEditing({ ...c, mobile: formatMobile(c.mobile), consent: true }) }}>
                   Edit
                 </button>
+                </div>
               </td>
             </tr>
           ))}
