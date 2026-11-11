@@ -2,7 +2,7 @@
 begin;
 create extension if not exists pgtap with schema extensions;
 
-select plan(22);
+select plan(23);
 
 -- ------------------------------------------------------------------ setup (as postgres)
 insert into auth.users (id, email, raw_user_meta_data) values
@@ -48,6 +48,8 @@ reset role;
 set local role service_role;
 set local request.jwt.claims to '{"role": "service_role"}';
 
+select is((select role from public.profiles where id = '00000000-0000-0000-0000-0000000000a1'), 'owner',
+  'the admin-users function can read accounts to check who is calling');
 select throws_ok(
   $$select public.admin_apply_account_change('00000000-0000-0000-0000-0000000000b2', '00000000-0000-0000-0000-0000000000c3', 'deactivate')$$,
   '42501', 'only the owner can manage accounts', 'the function refuses an actor who is not the Owner');
