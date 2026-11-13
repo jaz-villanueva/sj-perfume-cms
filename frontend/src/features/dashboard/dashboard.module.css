@@ -122,11 +122,13 @@
 
 .tileValue {
   margin: 0.4rem 0 0;
-  font-size: 1.85rem;
+  /* scales with the tile so an amount such as P4,225.00 stays on one line */
+  font-size: clamp(1.2rem, 4vw, 1.85rem);
   font-weight: 500;
   line-height: 1.15;
   letter-spacing: -0.01em;
   font-variant-numeric: tabular-nums;
+  white-space: nowrap;
   overflow-wrap: anywhere;
 }
 
@@ -158,7 +160,7 @@
   }
 
   .tileValue {
-    font-size: 1.55rem;
+    font-size: clamp(1.2rem, 6.3vw, 1.55rem);
   }
 }
 
