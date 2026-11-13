@@ -1,0 +1,251 @@
+/* Sales trends styles (Module 3). Same look as the dashboard: black-and-white labels, white cards
+   with hairline borders, black data marks, rose gold only in thin decorative rules. */
+
+.page {
+  display: grid;
+  gap: 1.25rem;
+}
+
+/* ---- header ---- */
+
+.header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-bottom: 1.25rem;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.eyebrow {
+  margin: 0;
+  font-size: 0.66rem;
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+}
+
+.band {
+  display: inline-block;
+  margin: 0;
+  padding: 0.2rem 0.5rem 0.2rem 0.74rem;
+  background: #000;
+  color: #fff;
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+}
+
+.title {
+  margin: 0.55rem 0 0;
+  font-size: 3rem;
+}
+
+/* a short rose-gold rule, like the trim on their marble display */
+.title::after {
+  content: '';
+  display: block;
+  width: 3rem;
+  height: 1px;
+  margin: 0.75rem 0 0.7rem;
+  background: var(--color-rose);
+}
+
+.lead {
+  margin: 0;
+  color: var(--color-muted);
+  font-weight: 300;
+}
+
+.period,
+.field {
+  display: grid;
+  gap: 0.35rem;
+}
+
+.period select,
+.field select {
+  min-width: 11rem;
+  padding: 0.45rem 2rem 0.45rem 0.9rem;
+  border: 1px solid #cfcac4;
+  border-radius: 999px;
+  background: var(--color-surface);
+  color: var(--color-text);
+}
+
+.field select {
+  min-width: 0;
+  width: 100%;
+  max-width: 28rem;
+}
+
+.sampleNote {
+  justify-self: start;
+  margin: 0;
+  padding: 0.3rem 0.95rem;
+  border: 1px solid #d6d1cb;
+  border-radius: 999px;
+  background: var(--color-surface);
+  color: var(--color-muted);
+  font-size: 0.8rem;
+}
+
+.error {
+  margin: 0;
+  color: #b42318;
+}
+
+.muted {
+  color: var(--color-muted);
+}
+
+/* ---- panels ---- */
+
+.panel {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr); /* the column can't grow to fit a wide table */
+  gap: 0.75rem;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+  padding: 1.25rem;
+  min-width: 0;
+}
+
+.panel h2 {
+  margin: 0;
+  font-size: 1.35rem;
+}
+
+.subtitle {
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--color-muted);
+}
+
+.readout {
+  margin: 0;
+  min-height: 1.5rem;
+}
+
+.scale {
+  margin: 0;
+  font-size: 0.72rem;
+  color: var(--color-muted);
+}
+
+/* ---- columns ---- */
+
+.plot {
+  position: relative;
+  display: flex;
+  gap: 2px;
+  height: 14rem;
+  border-bottom: 1px solid #d6d1cb;
+  overflow: hidden;
+}
+
+.column {
+  flex: 1 1 0;
+  min-width: 0;
+  height: 100%;
+  display: flex;
+  align-items: flex-end;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: default;
+}
+
+.column:focus-visible {
+  outline: 2px solid #141414;
+  outline-offset: 1px;
+}
+
+.bar {
+  display: block;
+  width: 100%;
+  background: var(--color-taupe);
+  border-radius: 3px 3px 0 0;
+}
+
+.barActive {
+  background: #141414;
+}
+
+/* The moving average: a dark line over the columns. Pointer events pass through to the columns. */
+.averageLine {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
+}
+
+.averageLine polyline {
+  fill: none;
+  stroke: #141414;
+  stroke-width: 2;
+  stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
+}
+
+.axis {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 0.35rem;
+  font-size: 0.72rem;
+  color: var(--color-muted);
+}
+
+/* ---- tables ---- */
+
+.tableToggle summary {
+  cursor: pointer;
+  color: var(--color-muted);
+  font-size: 0.85rem;
+}
+
+/* A table wider than its card scrolls inside the card instead of running past it on phones. */
+.table {
+  display: block;
+  width: 100%;
+  overflow-x: auto;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+
+.table th,
+.table td {
+  padding: 0.5rem 0.4rem;
+  border-bottom: 1px solid var(--color-border);
+  text-align: left;
+  white-space: nowrap;
+}
+
+.table th {
+  font-size: 0.66rem;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+}
+
+.number {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+@media (max-width: 40rem) {
+  .title {
+    font-size: 2.2rem;
+  }
+
+  .plot {
+    height: 11rem;
+  }
+}
