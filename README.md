@@ -77,7 +77,7 @@ docs/          requirements baseline, architecture, schema, API contracts, workf
 | 3 — Analytics, Forecasting & Infrastructure | Jaz Villanueva | `dashboard/`, `reports/`, `trends/`, `forecasts/`, `imports/`, plus `forecasting/` | FR-11, FR-13, FR-14, FR-15, NFR-8, NFR-11, NFR-12 |
 | Shared foundation | All | `users/`, `audit/`, `src/app/`, `src/lib/` | FR-1, FR-2, FR-3, FR-10, FR-16, FR-17, FR-18 |
 
-Each feature folder has a README with its requirements and rules. Requirement IDs follow SRS v1.2; READMEs written before v1.2 may use older numbers (mapping in the requirements baseline).
+Each feature folder has a README with its requirements and rules. How the Owner and Staff use the system day to day (FR-18) is in [`docs/standard-operating-procedures.md`](docs/standard-operating-procedures.md). Requirement IDs follow SRS v1.2; READMEs written before v1.2 may use older numbers (mapping in the requirements baseline).
 
 ## Getting started
 

@@ -228,3 +228,40 @@
 .nowrap {
   white-space: nowrap;
 }
+
+.panel h3 {
+  margin: 1.25rem 0 0.5rem;
+  font-size: 1rem;
+}
+
+.panel .toolbar {
+  margin: 0;
+}
+
+.panel .toolbar h2 {
+  margin: 0;
+}
+
+.privacyActions {
+  margin-top: 1.5rem;
+  padding-top: 0.5rem;
+  border-top: 1px solid var(--color-border);
+}
+
+.confirmBox {
+  margin-top: 0.75rem;
+  padding: 0.75rem;
+  border: 1px solid #f1b8b2;
+  border-radius: 4px;
+  background: #fff8f7;
+}
+
+.confirmBox p {
+  margin: 0;
+}
+
+.rowActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 0.75rem;
+}

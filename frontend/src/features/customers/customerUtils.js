@@ -1,4 +1,5 @@
-// Rules for customer records (FR-9, NFR-6, NFR-14).
+// Rules for customer records (FR-7, NFR-5).
+import { fromCentavos, toCentavos } from '../sales/saleUtils.js'
 
 export const PREFERRED_CHANNELS = [
   { value: 'walk_in', label: 'Walk-in' },
@@ -57,4 +58,16 @@ export function matchesSearch(customer, query) {
     customer.name.toLowerCase().includes(q) ||
     (digits.length >= 3 && customer.mobile.includes(digits.replace(/^63/, '0')))
   )
+}
+
+// FR-7: what a customer has bought. Voided sales are listed but never counted.
+// `sales` come newest first.
+export function summarizeSales(sales) {
+  const completed = sales.filter((s) => s.status === 'completed')
+  return {
+    count: completed.length,
+    voided: sales.length - completed.length,
+    spent: fromCentavos(completed.reduce((sum, s) => sum + toCentavos(s.total), 0)),
+    last: completed[0]?.soldAt ?? null,
+  }
 }

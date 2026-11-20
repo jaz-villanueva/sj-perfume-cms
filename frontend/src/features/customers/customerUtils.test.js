@@ -68,3 +68,15 @@ describe('matchesSearch', () => {
     expect(matchesSearch(ana, 'carlo')).toBe(false)
   })
 })
+
+describe('summarizeSales', () => {
+  it('counts only completed sales, in centavos', async () => {
+    const { summarizeSales } = await import('./customerUtils.js')
+    const result = summarizeSales([
+      { status: 'completed', total: 0.1, soldAt: '2026-11-02T00:00:00Z' },
+      { status: 'voided', total: 500, soldAt: '2026-11-01T00:00:00Z' },
+      { status: 'completed', total: 0.2, soldAt: '2026-10-01T00:00:00Z' },
+    ])
+    expect(result).toEqual({ count: 2, voided: 1, spent: 0.3, last: '2026-11-02T00:00:00Z' })
+  })
+})

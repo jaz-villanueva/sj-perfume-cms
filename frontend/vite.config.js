@@ -10,13 +10,13 @@ export default defineConfig({
     environment: 'jsdom',
     setupFiles: './src/test/setup.js',
 
-    // Force sample-data mode for automated tests.
-    // This prevents tests from accessing live Supabase.
+    // Tests use sample data even when .env.local points to Supabase.
+    // This prevents automated tests from accessing the live database.
     env: {
       VITE_USE_SAMPLE_DATA: 'true',
     },
 
-    // Use threads to avoid slow worker startup on Windows.
+    // Threads avoid slow forked-worker startup on some Windows machines.
     pool: 'threads',
   },
 })
