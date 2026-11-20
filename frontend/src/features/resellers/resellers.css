@@ -1,0 +1,396 @@
+
+.resellers-page {
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+.resellers-header {
+  margin-bottom: 28px;
+}
+
+.resellers-eyebrow {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  color: #8a6b53;
+}
+
+.resellers-header h1 {
+  margin: 8px 0;
+  font-size: clamp(26px, 3vw, 36px);
+  color: #322b27;
+}
+
+.resellers-description {
+  color: #766d66;
+  font-size: 14px;
+}
+
+.resellers-stats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.resellers-stat {
+  padding: 22px;
+  border: 1px solid #eadfd6;
+  border-radius: 12px;
+  background: #fffaf6;
+}
+
+.resellers-stat span {
+  display: block;
+  margin-bottom: 10px;
+  color: #756a63;
+  font-size: 13px;
+}
+
+.resellers-stat strong {
+  font-size: 30px;
+  color: #3e3028;
+}
+
+.resellers-panel {
+  overflow: hidden;
+  border: 1px solid #eadfd6;
+  border-radius: 12px;
+  background: #ffffff;
+}
+
+.resellers-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding: 20px;
+  border-bottom: 1px solid #eee5df;
+}
+
+.resellers-toolbar input,
+.resellers-toolbar select {
+  padding: 11px 13px;
+  border: 1px solid #d8ccc3;
+  border-radius: 8px;
+  background: white;
+  color: #3e3028;
+  font: inherit;
+}
+
+.resellers-toolbar input {
+  flex: 1;
+  min-width: 220px;
+}
+
+.resellers-toolbar select {
+  min-width: 160px;
+}
+
+.resellers-table-wrap {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.resellers-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  font-size: 13px;
+}
+
+.resellers-table th,
+.resellers-table td {
+  padding: 15px 18px;
+  border-bottom: 1px solid #f0e8e2;
+  vertical-align: middle;
+}
+
+.resellers-table th {
+  background: #faf5f0;
+  color: #67564a;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.resellers-table td {
+  color: #443b35;
+}
+
+.resellers-table tbody tr:hover {
+  background: #fffaf7;
+}
+
+.resellers-status {
+  display: inline-block;
+  padding: 5px 10px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.resellers-status.is-active {
+  background: #e7f4e8;
+  color: #26713a;
+}
+
+.resellers-status.is-inactive {
+  background: #f4e8e5;
+  color: #9b4b3f;
+}
+
+.resellers-message {
+  padding: 36px 20px;
+  text-align: center;
+  color: #766d66;
+}
+
+.resellers-error {
+  color: #a52a2a;
+}
+
+.resellers-count {
+  padding: 14px 20px;
+  color: #766d66;
+  font-size: 12px;
+}
+
+@media (max-width: 768px) {
+  .resellers-page {
+    padding: 16px;
+  }
+
+  .resellers-stats {
+    grid-template-columns: 1fr;
+  }
+
+  .resellers-toolbar {
+    flex-direction: column;
+  }
+
+  .resellers-toolbar input,
+  .resellers-toolbar select {
+    width: 100%;
+    min-width: 0;
+  }
+}
+
+
+.resellers-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.resellers-primary-button {
+  border: none;
+  border-radius: 8px;
+  padding: 12px 20px;
+  background: #73523e;
+  color: #ffffff;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.resellers-primary-button:hover {
+  background: #593d2c;
+}
+
+.resellers-primary-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.resellers-form-panel {
+  margin-bottom: 24px;
+  padding: 24px;
+  border: 1px solid #eadfd6;
+  border-radius: 12px;
+  background: #fffaf6;
+}
+
+.resellers-form-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 22px;
+}
+
+.resellers-form-heading h2 {
+  margin: 0;
+  font-size: 24px;
+  color: #3e3028;
+}
+
+.resellers-form-heading button,
+.resellers-form-actions button:not(.resellers-primary-button) {
+  padding: 10px 16px;
+  border: 1px solid #d8ccc3;
+  border-radius: 8px;
+  background: white;
+  color: #443b35;
+  font: inherit;
+  cursor: pointer;
+}
+
+.resellers-form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.resellers-form-grid label {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  color: #57483e;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.resellers-form-grid input,
+.resellers-form-grid select,
+.resellers-form-grid textarea {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 11px 13px;
+  border: 1px solid #d8ccc3;
+  border-radius: 8px;
+  background: #ffffff;
+  color: #3e3028;
+  font: inherit;
+  font-weight: 400;
+}
+
+.resellers-form-grid input:disabled {
+  background: #f2ece7;
+}
+
+.resellers-form-full {
+  grid-column: 1 / -1;
+}
+
+.resellers-consent {
+  margin-top: 22px;
+  padding: 18px;
+  border: 1px solid #e6d8cb;
+  border-radius: 8px;
+  background: #ffffff;
+}
+
+.resellers-consent p {
+  margin: 0 0 12px;
+  color: #675b52;
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+.resellers-consent label {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 13px;
+  color: #443b35;
+}
+
+.resellers-consent input {
+  margin-top: 3px;
+}
+
+.resellers-consent-recorded {
+  margin-top: 12px !important;
+  color: #26713a !important;
+}
+
+.resellers-form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 22px;
+}
+
+.resellers-edit-button {
+  padding: 7px 12px;
+  border: 1px solid #d8ccc3;
+  border-radius: 6px;
+  background: #fffaf6;
+  color: #73523e;
+  font: inherit;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.resellers-edit-button:hover {
+  background: #f3e7dc;
+}
+
+@media (max-width: 768px) {
+  .resellers-header {
+    flex-direction: column;
+  }
+
+  .resellers-form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .resellers-form-panel {
+    padding: 16px;
+  }
+
+  .resellers-form-actions {
+    flex-wrap: wrap;
+  }
+}
+
+
+.resellers-history-panel {
+  margin-bottom: 24px;
+  padding: 24px;
+  border: 1px solid #eadfd6;
+  border-radius: 12px;
+  background: #fffaf6;
+}
+
+.resellers-history-heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.resellers-history-heading h2 {
+  margin: 0 0 8px;
+  font-size: 23px;
+  color: #3e3028;
+}
+
+.resellers-history-heading p {
+  margin: 0;
+  color: #766d66;
+  font-size: 14px;
+}
+
+.resellers-history-heading button {
+  padding: 10px 16px;
+  border: 1px solid #d8ccc3;
+  border-radius: 8px;
+  background: white;
+  color: #443b35;
+  font: inherit;
+  cursor: pointer;
+}
+
+.resellers-history-heading button:hover {
+  background: #f3e7dc;
+}
+
+@media (max-width: 768px) {
+  .resellers-history-panel {
+    padding: 16px;
+  }
+}
